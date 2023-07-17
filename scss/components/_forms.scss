@@ -2,34 +2,350 @@
   font-family: $font-primary;
 }
 
-.sheet-header {
-  flex: 0 auto;
-  overflow: visible;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-bottom: 10px;
+&.sheet .sheet-header {
+  position: relative;
 
-  .profile-img {
-    flex: 0 0 100px;
-    height: 100px;
-    margin-right: 10px;
-  }
+  .header-name {
+    flex: 0 auto;
+    overflow: visible;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    padding-top: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    width: 100%;
 
-  .header-fields {
-    flex: 1;
-  }
+    .img-bars {
+      .profile-img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background-image: linear-gradient(to right, skyblue, pink);
+        border: 8px double $border;
+        background-clip: content-box;
+        margin-right: 0;
+      }
 
-  h1.charname {
-    height: 50px;
-    padding: 0px;
-    margin: 5px 0;
-    border-bottom: 0;
-    input {
-      width: 100%;
-      height: 100%;
-      margin: 0;
+      .combat-points {
+        padding: 3px;
+        max-width: 200px;
+
+        .resource {
+          padding: 5px;
+          border-bottom: 1px solid $fabula-greenlight;
+
+          .resource-content {
+            display: flex;
+            align-items: center;
+
+            .resource-label {
+              flex: 1;
+            }
+
+            .resource-value {
+              display: flex;
+              align-items: center;
+              justify-content: space-evenly;
+              flex: 1 25%;
+
+              * {
+                flex: 1;
+              }
+
+              .max {
+                font-weight: bold;
+              }
+            }
+          }
+        }
+      }
+    }
+
+
+
+    .charname-attributes {
+      flex: 1;
+
+      .charname {
+        display: flex;
+        justify-content: space-between;
+        height: 7em;
+
+        h1 {
+          .funny-mmo-title {
+            font-size: 70%;
+            color: $fabula-gray;
+          }
+
+          display: flex;
+          flex-direction: column;
+          justify-content:flex-end;
+
+          input {
+            height: auto;
+          }
+        }
+
+        .experience {
+
+          .fabula-points,
+          .experience-points,
+          .zenit {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+
+            label {
+              flex: 1;
+              text-align: end;
+              padding-right: 1.1em;
+              padding-left: 0.5em;
+              border-top-left-radius: 6px;
+              border-bottom-left-radius: 6px;
+              margin-right: -8px;
+              background: $fabula-greendark;
+              color: $fabula-light;
+            }
+
+            input {
+              width: 1.75em;
+              height: 1.75em;
+              border-radius: 100%;
+              font-size: 170%;
+              border: 2px solid $fabula-greendark;
+              text-align: center;
+              vertical-align: middle;
+              font-family: $font-bell;
+              padding: 0;
+              font-weight: bold;
+              background: $fabula-greenlight;
+              &.levelUp {
+                box-shadow: 0 0 10px 5px #48abe0;
+                color: white;
+                background-image: linear-gradient(to top, $fabula-crystal, $fabula-sky);
+              }
+            }
+          }
+        }
+
+        font-family: $font-tertiary;
+        width: 100%;
+        border: 6px solid;
+        border-image-source: linear-gradient(to right, $fabula-greendark, transparent);
+        border-image-slice: 1;
+        border-width: 6px;
+        border-left: 0;
+        border-right: 0;
+        border-top: 0;
+        margin-left: -3px;
+
+        input {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+        }
+      }
+
+      .header-fields {
+        display: flex;
+        position: relative;
+        margin-top: -10px;
+        margin-left: -5px;
+
+        .header-attributes {
+          display: flex;
+          padding: 8px;
+          padding-bottom: 0;
+          position: relative;
+          width: 100%;
+
+          &:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 6px;
+            border: 2px solid transparent;
+            background: linear-gradient(to right, $fabula-greendark, transparent) border-box;
+            -webkit-mask:
+              linear-gradient(#fff 0 0) padding-box,
+              linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            margin-left: 3px;
+            border-top-left-radius: 0;
+            pointer-events: none;
+          }
+
+          .abilities,
+          .defenses,
+          .resources-section {
+            flex: 1;
+            padding: 5px;
+            border-right: 1px solid $fabula-greendark;
+
+            .column-label {
+              color: $fabula-greendark;
+              font-family: $font-tertiary;
+              text-transform: uppercase;
+              padding: 3px;
+              border-radius: 6px;
+              margin-top: -.5em;
+              text-align: center;
+              margin-bottom: .5em;
+            }
+          }
+
+          .abilities {
+            .ability-roll {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+
+              .resource {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 10px;
+                select {
+                  margin: 3px;
+                }
+              }
+              .roll-row {
+                display: flex;
+                span.input {
+                  display: flex;
+                  width: 3em;
+                  align-items: center;
+                  margin-right: 3px;
+                  text-align: center;
+                }
+              }
+              .rollable {
+                background: $fabula-greendark;
+                color: $fabula-light;
+                border-radius: 6px;
+                padding: 5px;
+                display: flex;
+                align-items: center;
+                text-transform: uppercase;
+                font-family: $font-tertiary;
+                i {
+                  margin-right: 3px;
+                }
+
+                &:hover {
+                  background: $fabula-greenhover;
+                }
+              }
+            }
+
+            .ability-scores {
+              padding-top: 3px;
+              border: 1px solid;
+              border-image-source: linear-gradient(to right, transparent, $fabula-greendark, transparent);
+              border-image-slice: 1;
+              border-width: 1px;
+              border-left: 0;
+              border-right: 0;
+              border-bottom: 0;
+              margin-top: 6px;
+
+              .ability-header {
+                font-family: $font-tertiary;
+                color: $fabula-greendark;
+                text-transform: uppercase;
+              }
+
+              label {
+                font-weight: bold;
+                text-align: right;
+                text-transform: uppercase;
+                font-family: $font-tertiary;
+                margin-right: 3px;
+              }
+
+              .ability-mod {
+                font-size: 20px;
+                font-weight: bold;
+              }
+
+              .ability>* {
+                flex: 1;
+              }
+            }
+          }
+
+          .defenses {
+            border-color: $fabula-greenthird;
+
+            .defense {
+              display: flex;
+              justify-content: center;
+              flex-direction: column;
+              align-items: center;
+              text-align: center;
+              margin-bottom: 1em;
+              font-family: $font-tertiary;
+              border: 1px solid;
+              border-image-source: linear-gradient(to right, transparent, $fabula-greendark, transparent);
+              border-image-slice: 1;
+              border-width: 1px;
+              border-left: 0;
+              border-right: 0;
+              border-bottom: 0;
+              &.init {
+                border-width: 0px;
+              }
+              &:last-child {
+                margin: 0;
+              }
+              .rollable {
+                background: $fabula-greendark;
+                color: $fabula-light;
+                border-radius: 6px;
+                padding: 3px 12px;
+                display: flex;
+                align-items: center;
+                text-transform: uppercase;
+                font-size: 14px;
+                font-weight: normal;
+                &:hover {
+                  background: $fabula-greenhover;
+                }
+              }
+              label {
+                font-size: 16px;
+                
+                .sheet-labels {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  i {
+                    margin-right: 3px;
+                  }
+                }
+              }
+
+              div, span {
+                font-size: 20px;
+                font-weight: bold;
+              }
+            }
+          }
+
+          .resources-section {
+            border-right: none;
+            input {
+              margin-bottom: 1em;
+            }
+          }
+        }
+      }
+
     }
   }
 }
@@ -38,8 +354,6 @@
   flex: 0;
 }
 
-.sheet-body,
-.sheet-body .tab,
 .sheet-body .tab .editor {
   height: 100%;
 }

@@ -16,7 +16,6 @@ when possible. --}}
           type="text"
           value="{{item.name}}"
           placeholder="Name"
-		  style="color: ivory; background-color: transparent; border-color: transparent;"
         />
       </h1>
     </div>
@@ -52,10 +51,10 @@ when possible. --}}
         <span>Martial?</span
         ><input
           type="checkbox"
-          name="system.isMartial"
+          name="system.isMartial.value"
           {{
           checked
-          system.isMartial
+          system.isMartial.value
           }}
         />
       </label>

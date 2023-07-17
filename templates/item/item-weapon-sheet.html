@@ -13,7 +13,6 @@
           type="text"
           value="{{item.name}}"
           placeholder="Name"
-		  style="color: ivory; background-color: transparent; border-color: transparent;"
         />
       </h1>
     </div>
@@ -21,12 +20,17 @@
 
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
-    <a class="item" data-tab="attributes">Attributes</a>
     <a class="item" data-tab="description">Description</a>
+    <a class="item" data-tab="attributes">Attributes</a>
   </nav>
 
   {{!-- Sheet Body --}}
   <section class="sheet-body">
+    {{!-- Description Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
+      {{editor system.description target="system.description" rollData=rollData
+      button=true owner=owner editable=editable}}
+    </div>
     {{!-- Attributes Tab --}}
     <div class="tab attributes" data-group="primary" data-tab="attributes">
       {{!-- As you add new fields, add them in here! --}}
@@ -118,6 +122,7 @@
         {{#select system.hands.value}}
         <option value="One-Handed">One-Handed</option>
         <option value="Two-Handed">Two-Handed</option>
+        <option value="Dual-Wielding">Dual-Wielding</option>
         {{/select}}
       </select>
       <div class="resource">
@@ -148,14 +153,20 @@
         <option value="ice">ice</option>
         <option value="light">light</option>
         <option value="poison">poison</option>
+        <option value="untyped">untyped</option>
         {{/select}}
       </select>
-    </div>
-
-    {{!-- Description Tab --}}
-    <div class="tab" data-group="primary" data-tab="description">
-      {{editor system.description target="system.description" rollData=rollData
-      button=true owner=owner editable=editable}}
+      <label class="checkbox">
+        <span>Show Title Card?</span
+        ><input
+          type="checkbox"
+          name="system.showTitleCard.value"
+          {{
+          checked
+          system.showTitleCard.value
+          }}
+        />
+      </label>
     </div>
   </section>
 </form>

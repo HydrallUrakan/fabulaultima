@@ -16,7 +16,6 @@ when possible. --}}
           type="text"
           value="{{item.name}}"
           placeholder="Name"
-		  style="color: ivory; background-color: transparent; border-color: transparent;"
         />
       </h1>
     </div>
@@ -38,6 +37,71 @@ when possible. --}}
 
     {{!-- Attributes Tab --}}
     <div class="tab attributes" data-group="primary" data-tab="attributes">
+      <div class="miscCost">
+        <div class="resource">
+          <label class="resource-label">HP Cost</label>
+          <input
+            type="text"
+            name="system.miscCost.hp"
+            value="{{system.miscCost.hp}}"
+            data-dtype="Number"
+          />
+        </div>
+        <div class="resource">
+          <label class="resource-label">MP Cost</label>
+          <input
+            type="text"
+            name="system.miscCost.mp"
+            value="{{system.miscCost.mp}}"
+            data-dtype="Number"
+          />
+        </div>
+        <div class="resource">
+          <label class="resource-label">IP Cost</label>
+          <input
+            type="text"
+            name="system.miscCost.ip"
+            value="{{system.miscCost.ip}}"
+            data-dtype="Number"
+          />
+        </div>
+      </div>
+      <div class="resource miscType"><label
+        for="system.miscType.value"
+        class="resource-label"
+        >Type</label
+      >
+      <select
+        value="{{system.miscType.value}}"
+        name="system.miscType.value"
+      >
+        {{#select system.miscType.value}}
+        <option value="arcanum">Arcanum</option>
+        <option value="alchemy">Alchemy</option>
+        <option value="infusion">Infusion</option>
+        <option value="magitech">Magitech</option>
+        {{/select}}
+      </select></div>
+
+      <div class="resource">
+        <label class="resource-label">Domains</label>
+        <input
+          type="text"
+          name="system.domain.value"
+          value="{{system.domain.value}}"
+        />
+      </div>
+      <div class="resource">
+      <label class="resource-label">Merge</label>
+      {{editor system.merge class="misceditor" target="system.merge" rollData=rollData
+      button=true owner=owner editable=editable}}
+      </div>
+      <div class="resource">
+        <label class="resource-label">Dismiss</label>
+        {{editor system.dismiss class="misceditor" target="system.dismiss" rollData=rollData
+        button=true owner=owner editable=editable }}
+      </div>
+      
       <label class="checkbox">
         <span>Has Roll?</span
         ><input
@@ -153,7 +217,7 @@ when possible. --}}
         <option value="ice">ice</option>
         <option value="light">light</option>
         <option value="poison">poison</option>
-        <option value="">untyped</option>
+        <option value="untyped">untyped</option>
         {{/select}}
       </select>
       <div class="resource">

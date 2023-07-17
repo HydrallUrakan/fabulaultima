@@ -22,9 +22,8 @@ export class FabulaUltimaActorSheet extends ActorSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["fabulaultima", "sheet", "actor"],
+      height: 820,
       template: "systems/fabulaultima/templates/actor/actor-character-sheet.html",
-      width: 600,
-      height: 1150,
       tabs: [
         {
           navSelector: ".sheet-tabs",
@@ -110,6 +109,7 @@ export class FabulaUltimaActorSheet extends ActorSheet {
     const abilities = [];
     const behaviors = [];
     const consumables = [];
+    var value = 0;
 
     // Iterate through items, allocating to containers
     for (let i of context.items) {
@@ -127,7 +127,11 @@ export class FabulaUltimaActorSheet extends ActorSheet {
       i.mpCost = i.system.mpCost?.value;
       i.target = i.system.target?.value;
       i.duration = i.system.duration?.value;
-
+      i.description = i.system.description?.value;
+      i.miscType = i.system.miscType?.value;
+      i.merge = i.system.merge?.value;
+      i.dismiss = i.system.dismiss?.value;
+      i.cost = isNaN(parseInt(i.system.cost?.value)) ? 0 : parseInt(i.system.cost?.value) ;
       if (["armor", "shield", "accessory"].includes(i.type)) {
         i.def =
           i.isMartial && i.type === "armor"
@@ -168,6 +172,7 @@ export class FabulaUltimaActorSheet extends ActorSheet {
       } else if (i.type === "consumable") {
         consumables.push(i);
       }
+      value += i.cost;
     }
 
     // Assign and return
@@ -181,6 +186,8 @@ export class FabulaUltimaActorSheet extends ActorSheet {
     context.abilities = abilities;
     context.behaviors = behaviors;
     context.consumables = consumables;
+    context.value = value;
+
   }
 
   /* -------------------------------------------- */
@@ -189,6 +196,16 @@ export class FabulaUltimaActorSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
+    var accordions = document.querySelectorAll('.accordion');
+    accordions.forEach(accordion => {
+      var accordionLabel = accordion.getElementsByClassName('accordion-label')[0];
+      if (accordionLabel) {
+        accordionLabel.addEventListener('click', e => {
+          accordion.classList.toggle('active');
+        });
+      }
+    });
+    
     // Render the item sheet for viewing/editing prior to the editable check.
     html.find(".item-edit").click((ev) => {
       const li = $(ev.currentTarget).parents(".item");
@@ -218,6 +235,15 @@ export class FabulaUltimaActorSheet extends ActorSheet {
       const currentEquipped = item.system.isEquipped.value;
       this.actor.updateEmbeddedDocuments("Item", [
         { _id: itemId, "system.isEquipped.value": !currentEquipped },
+      ]);
+    });
+
+    html.find(".item-level-input").change((ev) =>{
+      const li = $(ev.currentTarget).parents(".item");
+      const itemId = li.data("itemId");
+      const newLevel = parseInt(ev.target.value);
+      this.actor.updateEmbeddedDocuments("Item", [
+        { _id: itemId, "system.level.value": newLevel },
       ]);
     });
 
@@ -293,7 +319,7 @@ export class FabulaUltimaActorSheet extends ActorSheet {
       this.actor.name
     }<br /><b>Selected behavior:</b> ${
       selected.name
-    }<br /><b>Target priority:</b> ${targetArray.join(" -> ")}`;
+    }<br /><b>Description:</b> ${selected.desc}<br /><b>Target priority:</b> ${targetArray.join(" -> ")}`;
 
     let chatData = {
       user: game.user._id,

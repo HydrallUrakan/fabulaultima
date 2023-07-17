@@ -34,6 +34,7 @@ export class FabulaUltimaActor extends Actor {
 
     this._calculateResources(actorData);
     this._handleStatusEffects(actorData);
+    this._calculateOffenses(actorData);
     this._calculateDefenses(actorData);
     this._calculateInitOrInitMod(actorData);
 
@@ -41,6 +42,17 @@ export class FabulaUltimaActor extends Actor {
     // things organized.
     this._prepareCharacterData(actorData);
     this._prepareNpcData(actorData);
+  }
+
+  _calculateOffenses(actorData) {
+    const matt = actorData.system.derived.matt.bonus ?? 0;
+    const ratt = actorData.system.derived.ratt.bonus ?? 0;
+    const satt = actorData.system.derived.satt.bonus ?? 0;
+    const bdam = actorData.system.derived.bdam.bonus ?? 0;
+    actorData.system.derived.matt.value = matt;
+    actorData.system.derived.ratt.value = ratt;
+    actorData.system.derived.satt.value = satt;
+    actorData.system.derived.bdam.value = bdam;
   }
 
   _calculateDefenses(actorData) {
@@ -69,7 +81,7 @@ export class FabulaUltimaActor extends Actor {
     }, 0);
     const bonusDef = actorData.system.derived.def.bonus ?? 0;
 
-    const def = baseDef + otherDef + bonusDef;
+    var def = baseDef + otherDef + bonusDef;
 
     const nonWeapons = equipped.filter((item) => item.type !== "weapon");
     const ins = actorData.system.attributes.ins.current;
@@ -80,15 +92,32 @@ export class FabulaUltimaActor extends Actor {
     }, 0);
     const bonusMDef = actorData.system.derived.mdef.bonus ?? 0;
 
-    const mdef = ins + otherMDef + bonusMDef;
+    var mdef = ins + otherMDef + bonusMDef;
+
+    const dred = actorData.system.derived.dred.value + actorData.system.derived.dred.bonus;
+
+    if (actorData.system.derived.def.override) {
+      def = Math.max(def, actorData.system.derived.def.override);
+    }
+    if (actorData.system.derived.mdef.override) {
+      mdef = Math.max(def, actorData.system.derived.mdef.override);
+    }
 
     actorData.system.derived.def.value = def;
     actorData.system.derived.mdef.value = mdef;
+    actorData.system.derived.dred.value = dred;
   }
 
   _calculateResources(actorData) {
     const systemData = actorData.system;
     const classes = actorData.items.filter((item) => item.type === "class");
+    if (actorData.type === "character") {
+      var levelCalc = 0;
+      for (let i = 0; i < classes.length; i++) {
+        levelCalc += classes[i].system.level.value;
+      }
+      systemData.level.value = levelCalc;
+    }
     const classesWithHp = classes.filter(
       (item) => item.system.benefits.hp.value
     );
@@ -102,10 +131,10 @@ export class FabulaUltimaActor extends Actor {
       actorData.type !== "npc"
         ? 1
         : systemData.isChampion.value !== 1
-        ? systemData.isChampion.value
-        : systemData.isElite.value
-        ? 2
-        : 1;
+          ? systemData.isChampion.value
+          : systemData.isElite.value
+            ? 2
+            : 1;
     const mpMultiplier =
       actorData.type !== "npc" ? 1 : systemData.isChampion.value !== 1 ? 2 : 1;
     const levelVal =
@@ -118,6 +147,15 @@ export class FabulaUltimaActor extends Actor {
         classesWithHp.length * 5 +
         systemData.resources.hp.bonus) *
       hpMultiplier;
+    if (actorData.type === "npc") {
+      if (actorData.system.isCompanion.value) {
+        systemData.resources.hp.max = ((actorData.system.companion.skill * systemData.attributes.mig.base) + (Math.floor(actorData.system.companion.master * 0.5)) + systemData.resources.hp.bonus);
+      }
+    }
+    systemData.resources.hp.crisis =
+      (Math.floor(systemData.resources.hp.max / 2));
+    systemData.resources.hp.percent =
+      (systemData.resources.hp.value / systemData.resources.hp.max).toFixed(2);
     systemData.resources.mp.max =
       (systemData.attributes.wlp.base * 5 +
         systemData.level.value +
@@ -137,18 +175,25 @@ export class FabulaUltimaActor extends Actor {
     Object.keys(systemData.attributes).forEach(
       (attrKey) => (statMods[attrKey] = 0)
     );
-
     actorData.temporaryEffects.forEach((effect) => {
       const status = CONFIG.statusEffects.find(
         (status) => status.id === effect.flags.core.statusId
       );
 
       if (status) {
-        console.log(status);
-        status.stats.forEach((attrKey) => (statMods[attrKey] += status.mod));
+        if (["dex", "ins", "mig", "wlp"].includes(status.stats[0])) {
+          status.stats.forEach((attrKey) => (statMods[attrKey] += status.mod));
+        }
+        else if (["def", "mdef"].includes(status.stats[0])) {
+          if (status.stats[0] === "def") {
+            systemData.derived.def.override = status.mod;
+          }
+          else {
+            systemData.derived.mdef.override = status.mod;
+          }
+        }
       }
     });
-
     for (let [key, attr] of Object.entries(systemData.attributes)) {
       let newVal = attr.base + statMods[key];
       if (newVal > 12) {
@@ -177,19 +222,19 @@ export class FabulaUltimaActor extends Actor {
       actorData.type !== "npc"
         ? 0
         : actorData.system.isChampion.value !== 1
-        ? actorData.system.isChampion.value
-        : actorData.system.isElite.value
-        ? 2
-        : 0;
+          ? actorData.system.isChampion.value
+          : actorData.system.isElite.value
+            ? 2
+            : 0;
 
     actorData.system.derived.init.value =
       actorData.type === "npc"
         ? initMod +
-          (actorData.system.attributes.dex.base +
-            actorData.system.attributes.ins.base) /
-            2 +
-          initBonus +
-          eliteOrChampBonus
+        (actorData.system.attributes.dex.base +
+          actorData.system.attributes.ins.base) /
+        2 +
+        initBonus +
+        eliteOrChampBonus
         : initMod + initBonus;
   }
 
@@ -264,10 +309,17 @@ export class FabulaUltimaActor extends Actor {
   async _preUpdate(changed, options, user) {
     const changedHP = changed.system?.resources?.hp;
     const currentHP = this.system.resources.hp;
+    const changedMP = changed.system?.resources?.mp;
+    const currentMP = this.system.resources.mp;
     if (typeof changedHP?.value === "number" && currentHP) {
       const hpChange = changedHP.value - currentHP.value;
       const levelChanged = !!changed.system && "level" in changed.system;
       if (hpChange !== 0 && !levelChanged) options.damageTaken = hpChange * -1;
+    }
+    if (typeof changedMP?.value === "number" && currentMP) {
+      const mpChange = changedMP.value - currentMP.value;
+      const levelChanged = !!changed.system && "level" in changed.system;
+      if (mpChange !== 0 && !levelChanged) options.mindTaken = mpChange * -1;
     }
 
     await super._preUpdate(changed, options, user);
@@ -276,34 +328,110 @@ export class FabulaUltimaActor extends Actor {
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);
 
-    console.log(changed);
+    //console.log(changed);
 
     if (options.damageTaken) {
-      this.showFloatyText(options.damageTaken);
+      this.showFloatyText(options.damageTaken, 'hp');
+    }
+    else if (options.mindTaken) {
+      this.showFloatyText(options.mindTaken, 'mp')
     }
   }
 
-  async showFloatyText(input) {
-    let scrollingTextArgs;
+  async showFloatyText(input, pool) {
+    if (_token?.x) {
+      let scrollingTextArgs;
+      const gridSize = canvas.scene.grid.size;
+      if (typeof input === "number") {
+        let fillCol = '';
+        if (pool === "hp") {
+          fillCol = input < 0 ? "lightgreen" : "white";
+        }
+        else {
+          fillCol = input < 0 ? "lightblue" : "darkblue";
+        }
+        scrollingTextArgs = [
+          { x: _token.x + gridSize / 2, y: _token.y + gridSize - 20 },
+          Math.abs(input),
+          {
+            fill: fillCol,
+            fontSize: 32,
+            stroke: 0x000000,
+            strokeThickness: 4,
+          },
+        ];
+      }
+      if (!scrollingTextArgs) return;
 
-    const gridSize = canvas.scene.grid.size;
-
-    if (typeof input === "number") {
-      scrollingTextArgs = [
-        { x: _token.x + gridSize / 2, y: _token.y + gridSize - 20 },
-        Math.abs(input),
-        {
-          fill: input < 0 ? "lightgreen" : "white",
-          fontSize: 32,
-          stroke: 0x000000,
-          strokeThickness: 4,
-        },
-      ];
+      await _token._animation;
+      await canvas.interface?.createScrollingText(...scrollingTextArgs);
     }
+    else {
+      return;
+    }
+  }
+  _preCreate(data, user) {
+    super._preCreate(data, user);
 
-    if (!scrollingTextArgs) return;
+    if (data.type === "character") {
+      let initData = {
+        prototypeToken: {
+          displayName: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
+          displayBars: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
+          disposition: CONST.TOKEN_DISPOSITIONS.FRIENDLY,
+          actorLink: true,
+          sight: {
+            enabled: true,
+          },
 
-    await _token._animation;
-    await canvas.interface?.createScrollingText(...scrollingTextArgs);
+        },
+      };
+      this.updateSource(initData);
+      console.log(this);
+    }
+    else {
+      let initData = {
+        prototypeToken: {
+          displayName: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
+          displayBars: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
+          disposition: CONST.TOKEN_DISPOSITIONS.HOSTILE,
+        },
+      };
+      this.updateSource(initData);
+      console.log(this);
+    }
   }
 }
+
+/**
+ *         "flags.barbrawl.resourceBars": {
+          "bar1": {
+            id: "bar1",
+            mincolor: "#FF0000",
+            maxcolor: "#80FF00",
+            position: "bottom-inner",
+            attribute: "resources.hp",
+            visibility: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
+          },
+          "bar2": {
+            id: "bar2",
+            mincolor: "#000080",
+            maxcolor: "#80B3FF",
+            position: "top-inner",
+            attribute: "resources.mp",
+            visibility: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
+            indentRight: 50,
+            shareHeight: true,
+          },
+          "bar3": {
+            id: "bar3",
+            mincolor: "#000000",
+            maxcolor: "#FFFFFF",
+            position: "top-inner",
+            attribute: "resources.ip",
+            visibility: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
+            indentLeft: 50,
+            shareHeight: true,
+          },
+        },
+ */

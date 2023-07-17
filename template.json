@@ -41,8 +41,13 @@
         "derived": {
           "crisis": { "value": 5 },
           "init": { "value": 0, "bonus": 0 },
-          "def": { "value": 0, "bonus": 0 },
-          "mdef": { "value": 0, "bonus": 0 }
+          "def": { "value": 0, "bonus": 0, "override": 0 },
+          "mdef": { "value": 0, "bonus": 0, "override": 0 },
+          "matt": { "value": 0, "bonus": 0, "override": 0 },
+          "ratt": { "value": 0, "bonus": 0, "override": 0 },
+          "satt": { "value": 0, "bonus": 0, "override": 0 },
+          "dred": { "value": 0, "bonus": 0, "override": 0 },
+          "bdam": { "value": 0, "bonus": 0, "override": 0 }
         },
         "castingAttributes": {
           "primary": { "value": "ins" },
@@ -77,7 +82,9 @@
     "npc": {
       "templates": ["base"],
       "isElite": { "value": false },
-      "isChampion": { "value": 1 }
+      "isChampion": { "value": 1 },
+      "isCompanion": { "value": false },
+      "companion": { "master": 0, "skill": 0 }
     }
   },
   "Item": {
@@ -147,7 +154,7 @@
       }
     },
     "weapon": {
-      "templates": ["base", "item", "equippable"],
+      "templates": ["base", "item", "equippable", "showTitleCard"],
       "attributes": {
         "primary": { "value": "mig" },
         "secondary": { "value": "dex" }
@@ -189,10 +196,16 @@
       "mpCost": { "value": "" },
       "target": { "value": "" },
       "duration": { "value": "" },
-      "isOffensive": { "value": false }
+      "isOffensive": { "value": false },
+      "hideTitleCard": { "value": false }
     },
     "miscAbility": {
-      "templates": ["base", "rollInfo", "showTitleCard"]
+      "templates": ["base", "rollInfo", "showTitleCard"],
+      "miscCost": { "hp": 0, "mp": 0, "ip": 0 },
+      "miscType": { "value": false },
+      "merge": "",
+      "dismiss": "",
+      "domains": { "value": "" }
     },
     "behavior": {
       "templates": ["base"],

@@ -1,0 +1,423 @@
+/* Edit */
+.grid-span-row-2:nth-child(2),
+.grid-span-row-2:nth-child(3) {
+  grid-row: span 2;
+}
+@keyframes zoomOutUp {
+  40% {
+    opacity: 1;
+    transform: scale3d(0.475, 0.475, 0.475) translate3d(0, 60px, 0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale3d(0.1, 0.1, 0.1) translate3d(0, -2000px, 0);
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+  }
+}
+
+.zoomOutUp {
+  animation-name: zoomOutUp;
+  transform-origin: center bottom;
+}
+
+@keyframes fadeOut {
+  40% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes floating {
+    0% { transform: translate(0,  0px); }
+    50%  { transform: translate(0, 6px); }
+    100%   { transform: translate(0, -0px); }   
+}
+.fabulaultima-actor-sheet {
+    //min-width:500px;
+    //max-width:600px;
+    //min-height:1000px;
+    //max-height:1150px;
+}
+
+
+.fabulaultima .backgroundstyle {
+    background-image: url("/systems/fabulaultima/images/0.png"), linear-gradient(to left, white, $sheet-background);
+    background-blend-mode: multiply;
+    background-repeat: repeat-y;
+    background-position: top right;
+  }
+  .fabulaultima.actor nav.sheet-tabs {
+    background: $fabula-greenlight;
+    border-color: $fabula-greendark;
+    border-width: 1px;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  .fabulaultima.actor .TabStyle {
+    color: $tab-color; 
+    font-size: 18px;
+    font-family: $font-tertiary;
+    font-weight: normal;
+    text-transform: uppercase;
+    border-color: DarkSlateGray; 
+    background: transparent;
+    padding: 0px !important; 
+    position: relative;
+    border: 3px solid;
+    border-top: none;
+    border-bottom: none;
+    flex: 1;
+    margin-left: 1em;
+    &:last-child {
+      margin-right: 1em;
+    }
+    .inner {
+      display: inline-block;
+      border: 3px solid;
+      border-color: $fabula-greenlight;
+      border-top: none;
+      border-bottom: none;
+      padding: 6px 6px 6px 0px;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      .inner-text {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        margin-left: 6px;
+      }
+    }
+    &.active .inner .inner-text:before {
+      content: "◈";
+      color: inherit;
+      position: absolute;
+      left: -15px;
+    }
+    &[data-tab="features"],&[data-tab="attributes"] {
+      background-color: $fabula-gold;
+      border-color: $fabula-gold;
+    }
+    &[data-tab="skills"],&[data-tab="behavior"] {
+      background-color: $fabula-blue;
+      border-color: $fabula-blue;
+    }
+    &[data-tab="items"] {
+      background-color: $fabula-green;
+      border-color: $fabula-green;
+    }
+    &[data-tab="spells"] {
+      background-color: $fabula-red;
+      border-color: $fabula-red;
+    }
+    &[data-tab="effects"] {
+      background-color: $fabula-purple;
+      border-color: $fabula-purple;
+    }
+  }
+
+.fabulaultima:not(.actor) .window-content>form {
+  display: flex;
+  flex-direction: column;
+  .sheet-body {
+    flex: 1;
+    .tab {
+      height: 100%;
+      &[data-tab="description"] {
+        .editor:not(.tinymce) {
+          //padding-top: 2em;
+        }
+      }
+    }
+  }
+}
+
+.fabulaultima .fabulaultima-actor-sheet, .fabulaultima .npc {
+  .sheet-header {
+    flex: 0;
+    img {
+      width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background-image: linear-gradient(to right, skyblue, pink);
+        border: 8px double $border;
+        background-clip: content-box;
+        margin-right: 0;
+    }
+    .header-fields {
+      h1 input {
+        font-family: $font-tertiary;
+        width: 100%;
+        border: 6px solid;
+        border-image-source: linear-gradient(to right, $fabula-greendark, transparent);
+        border-image-slice: 1;
+        border-width: 6px;
+        border-left: 0;
+        border-right: 0;
+        border-top: 0;
+        margin-left: -10px;
+        background: transparent;
+        &:hover {
+          background: rgba(0, 0, 0, 0.05);
+        }
+      }
+      .resources {
+        margin-top: -5px;
+        margin-left: 5px;
+        margin-right: 8px;
+      }
+    }
+  }
+  .sheet-body {
+    .tab {
+      border-top: 3px solid;
+      padding-left: 8px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+      &.features {
+        border-color: $fabula-gold;
+        .roll-checks-section {
+          display: flex;
+          flex-direction: column;
+          margin-top: 1em;
+          .rollable {
+            background: $fabula-greendark;
+            color: $fabula-light;
+            border-radius: 6px;
+            padding: 5px;
+            display: inline-flex;
+            align-items: center;
+            margin-top: .5em;
+            p {
+              margin: 0;
+            }
+            &:hover {
+              background: $fabula-greenhover;
+            }
+          }
+        }
+        .res-label {
+          font-family: $font-tertiary;
+          color: $fabula-greendark;
+          padding-top: 3px;
+          border: 1px solid;
+          border-image-source: linear-gradient(to right, transparent, $fabula-greendark, transparent);
+          border-image-slice: 1;
+          border-width: 1px;
+          border-left: 0;
+          border-right: 0;
+          border-bottom: 0;
+          margin-top: 6px;
+          text-align: center;
+          font-size: 16px;
+        }
+      }
+      &.skills {
+        border-color: $fabula-blue;
+      }
+      &.items {
+        border-color: $fabula-green;
+        position: relative;
+      }
+      &.spells {
+        border-color: $fabula-red;
+      }
+      &.effects {
+        border-color: $fabula-purple;
+      }
+    }
+  }
+}
+
+
+.fabulaultima .items-main {
+    height: 36px;
+    width: 200px;
+    font-weight: bold;
+    color: Ivory; 
+    font-size: 24px; 
+    border-style:solid;
+    border-width: thin;
+    border-color: DarkSlateGray;
+    background-color: $tab-background; 
+    border-radius: 0px 16px 0px 0px;
+    padding: 4px;
+    padding-left: 8px;
+    text-transform: uppercase;
+    font-family: $font-tertiary;
+    font-weight: 700;
+    position: relative;
+    bottom: -2px;
+    display: flex;
+    align-items: center;
+    font-weight: normal;
+  }
+
+
+  .npc{
+    .res-label {
+      .res-glyph {
+        font-size: 18px;
+      }
+      &.physical {
+          color: $fabula-gray;
+      }
+      &.air {
+          color: $fabula-greendark;
+      }
+      &.bolt {
+          color: $fabula-sky;
+      }
+      &.dark {
+          color: $fabula-purple;
+      }
+      &.earth {
+          color: $fabula-optional;
+      }
+      &.ice {
+          color: $fabula-crystal;
+      }
+      &.fire {
+          color: $fabula-warning;
+      }
+      &.light {
+          color: $fabula-gold;
+      }
+      &.poison {
+          color: $fabula-green;
+      }
+    }
+    .behavior {
+      button {
+        display: block;
+        max-width: 600px;
+        margin: 0 auto;
+        background: $fabula-blue;
+        color: $fabula-light;
+        font-size: 20px;
+        font-family: $font-tertiary;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        width: auto;
+        padding: .5em 3em;
+        &:hover {
+          background: $fabula-crystal;
+        }
+      }
+    }
+  }
+
+
+  .identity {
+    label {
+      font-weight: bold;
+    }
+    input, .editor {
+      border-color: transparent;
+      text-align: left;
+      margin-bottom: .5em;
+    }
+    .editor {
+      background: rgba(0, 0, 0, 0.05);
+    }
+  }
+
+  .feature-section {
+    font-size: 18px;
+    font-family: $font-tertiary;
+  }
+
+  .fabulaultima .sheet-body .tab.attributes .editor {
+      height: auto;
+      min-height: 2.5em;
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--color-border-light-tertiary);
+      border-radius: 3px;
+      .tox-editor-container {
+        background: transparent;
+        .tox-editor-header {
+          background: transparent;
+        }
+      }
+      &.tinymce {
+        height: initial;
+      }
+    }
+
+
+    .miscType {
+      margin-bottom: 2px;
+      label {
+        display: block;
+      }
+    }
+
+    .bonus-features {
+      display: flex;
+      margin-top: 1em;
+      margin-bottom: 2em;
+      flex-wrap: wrap;
+      .resource {
+        width: 20%;
+      }
+    }
+
+    .npc-border {
+      border: 4px double;
+      border-color: $fabula-greendark;
+      padding: 8px;
+      .border-label {
+        max-width: 150px;
+        margin: 0 auto;
+        margin-bottom: 8px;
+        margin-top: -13px;
+        background: $fabula-greendark;
+        border-radius: 6px;
+        color: $fabula-light;
+        padding: 3px;
+        text-align: center;
+        font-family: $font-tertiary;
+        font-size: 16px;
+        text-transform: uppercase;
+      }
+    }
+
+    .fabulaultima.sheet.actor {
+      min-width: 668px;
+    }
+
+    .total-zenit {
+      color: $fabula-gold;
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 8px;
+      opacity: .9;
+    }
+
+
+    .tab .miscCost {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sheet-bio {
+      min-height: 5em;
+      max-height: 30em;
+      overflow: scroll;
+      .editor {
+        min-height: 5em;
+      }
+    }

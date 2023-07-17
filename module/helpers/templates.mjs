@@ -12,5 +12,7 @@
     "systems/fabulaultima/templates/actor/parts/actor-spells.html",
     "systems/fabulaultima/templates/actor/parts/actor-effects.html",
     "systems/fabulaultima/templates/actor/parts/actor-behavior.html",
+    "systems/fabulaultima/templates/actor/parts/actor-npc-spells.html",
+    "systems/fabulaultima/templates/actor/parts/actor-npc-effects.html",
   ]);
 };

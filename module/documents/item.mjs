@@ -31,7 +31,7 @@ export class FabulaUltimaItem extends Item {
       return false;
     }
 
-    
+
     const qualText = this.system.quality?.value
       ? this.system.quality.value
       : "No Quality.";
@@ -40,7 +40,40 @@ export class FabulaUltimaItem extends Item {
     if (this.system.accuracy.value > 0) {
       attackString += ` +${this.system.accuracy.value}`;
     }
-    const damageString = `【HR + ${this.system.damage.value}】${this.system.damageType.value}`;
+    var damGlyph = '';
+    switch (this.system.damageType.value) {
+      case 'physical':
+        damGlyph = "'";
+        break;
+      case 'air':
+        damGlyph = 'a';
+        break;
+      case 'bolt':
+        damGlyph = 'b'
+        break;
+      case 'dark':
+        damGlyph = 'd';
+        break;
+      case 'earth':
+        damGlyph = 'E';
+        break;
+      case 'fire':
+        damGlyph = 'f';
+        break;
+      case 'ice':
+        damGlyph = 'i';
+        break;
+      case 'light':
+        damGlyph = 'l';
+        break;
+      case 'poison':
+        damGlyph = 't';
+        break;
+      default:
+        damGlyph = 'c';
+        break;
+    }
+    const damageString = `【HR + ${this.system.damage.value}】<span class="glyph" title="${this.system.damageType.value}">${damGlyph}</span>`;
 
     return {
       attackString,
@@ -76,43 +109,113 @@ export class FabulaUltimaItem extends Item {
       sec: secondary,
       mod: accVal,
     });
-    await  roll.evaluate({async: true});
-	roll.toMessage({
-	});
+    await roll.evaluate({ async: true });
+    //roll.toMessage({
+    //});
     const bonusAccVal = usedItem ? this.system.rollInfo.accuracy.value : 0;
     const bonusAccValString = bonusAccVal
       ? ` + ${bonusAccVal} (${this.type})`
       : "";
 
-    const acc = roll.total + bonusAccVal;
+    let effectBonus = item.type === "weapon"
+      ? item.system.type === "Melee"
+        ? this.actor.system.derived.matt.value
+        : item.system.type === "Ranged"
+          ? this.actor.system.derived.ratt.value
+          : this.actor.system.derived.matt.value
+      : item.type === "spell"
+        ? this.actor.system.derived.satt.value
+        : 0;
+    if (this.actor.system.isCompanion.value) {
+      effectBonus += this.actor.system.companion.skill;      
+    }
+
+    const effectBonusString = effectBonus ? ` + ${effectBonus}` : '';
+
+    const acc = roll.total + bonusAccVal + effectBonus;
     const diceResults = roll.terms
       .filter((term) => term.results)
       .map((die) => die.results[0].result);
+    const hands = item.type === "weapon" ? item.system.hands.value : "";
     const hr =
       this.system.rollInfo && this.system.rollInfo.useWeapon?.hrZero?.value
         ? 0
-        : Math.max(...diceResults);
+        : hands === "Dual-Wielding"
+          ? 0
+          : Math.max(...diceResults);
     const isFumble = diceResults[0] === 1 && diceResults[1] === 1;
     const isCrit =
       !isFumble && diceResults[0] === diceResults[1] && diceResults[0] >= 6;
 
-    const accString = `${
-      diceResults[0]
-    } (${attrs.primary.value.toUpperCase()}) + ${
-      diceResults[1]
-    } (${attrs.secondary.value.toUpperCase()}) + ${accVal} (${
-      item.type
-    })${bonusAccValString}`;
+    const accString = `${diceResults[0]
+      } <strong>(${attrs.primary.value.toUpperCase()})</strong> + ${diceResults[1]
+      } <strong>(${attrs.secondary.value.toUpperCase()})</strong> + ${accVal} <strong>(${item.type
+      })</strong>${bonusAccValString}${effectBonusString}`;
     const fumbleString = isFumble ? "<strong>FUMBLE!</strong><br />" : "";
     const critString = isCrit ? "<strong>CRITICAL HIT!</strong><br />" : "";
 
     if (addName) {
-      content += `<strong>${item.name}</strong><br />`;
+      content += `<div class="card-section weapon-name"><div class="section-label">WEP</div><div class="section-content"><strong>${item.name}</strong></div></div>`;
     }
 
-    content += `<div class="align-left" style="margin-top: 24px; margin-bottom: 24px;"><span style="align-text: right;color: Ivory; font-size: 18px; margin-bottom: 10px; background-image: linear-gradient(DarkRed, Crimson);">${critString}${fumbleString}</span><div><span style="color: Ivory; font-size: 28px; text-shadow: 2px 2px 4px #000000; box-shadow:3px 6px DarkSlateGray; background-image: linear-gradient(to right, Teal, MediumAquamarine); border-style:solid; border-width: thin; border-color: DarkSlateGray; border-radius: 8px; padding: 4px;">Accuracy</span></div><div><span style="color: Ivory; font-size: 16px; text-shadow: 2px 2px 4px #000000; box-shadow:3px 6px DarkSlateGray; background-image: linear-gradient(to right, Teal, MediumAquamarine); border-radius: 8px;  padding-bottom: 5px; padding-right: 10px; padding-left: 10px;">${diceResults[0]}  <strong>(${attrs.primary.value.toUpperCase()})</strong> + ${diceResults[1]} <strong>(${attrs.secondary.value.toUpperCase()})</strong> + ${accVal}</div><div style="float:right;"></span><span style="color: Ivory; font-size: 24px; text-shadow: 2px 2px 4px #000000; box-shadow:2px 4px Indigo; background-image: linear-gradient(to right, RebeccaPurple, Plum); border-style:solid; border-width: thin; border-color: Indigo; border-radius: 8px; padding: 4px;"><strong><span style="display:inline-block; text-shadow: 2px 2px Indigo; font-size: 48px; animation: floating 3s infinite ease-in-out;">${acc}</span> to hit!</span></strong><br /></div></div>`;
-	
-    if (hasDamage) {
+    content += `
+    <div class="accuracy">
+          <div class="accuracy-title">ACC</div>
+          <div class="accuracy-content">
+            <div class="crit-label">${critString}${fumbleString}</div>
+            <div class="accuracy-label">
+              ${accString}
+            </div>
+            <div class="accuracy-result">
+              <span class="accuracy-result-label">
+                <strong>
+                  <span class="accuracy-result-number">${acc}</span> to hit!
+                </strong>
+              </span><br />
+    `
+
+    var hit = false;
+
+    const targets = Array.from(game.user.targets);
+
+    if (targets.length) {
+      content += `<div class="targets-row">`;
+      for (let i = 0; i < targets.length; i++) {
+        var hitText = "miss";
+        if (isFumble) {
+          console.log("Fumble!");
+          hitText = "fumble";
+        }
+        else if (isCrit) {
+          hit = true;
+          console.log("Crit!");
+          hitText = "crit";
+        }
+        else if (acc > targets[i].actor.system.derived.def.value) {
+          hit = true;
+          console.log("Hit!");
+          hitText = "hit";
+        }
+        content += `
+            <div class="target-box ">
+              <div class="target-name">${targets[i].name}</div>
+              <div class="target-hit ${hitText}">${hitText}!</div>
+            </div>
+          `;
+      }
+      content += `</div>`;
+    }
+    else {
+      hit = true;
+
+    }
+
+    content += `
+        </div>
+      </div>
+    </div>`;
+
+    if (hasDamage && hit) {
       let damVal =
         item.type === "weapon"
           ? item.system.damage.value
@@ -120,18 +223,61 @@ export class FabulaUltimaItem extends Item {
       damVal = damVal ?? 0;
 
       const bonusDamVal = usedItem ? this.system.rollInfo.damage.value : 0;
-      const bonusDamValString = bonusDamVal
-        ? ` + ${bonusDamVal} (${this.type})`
-        : "";
-
-      const damage = hr + damVal + bonusDamVal;
+      const bonusDamUni = this.actor.system.derived.bdam.value ? this.actor.system.derived.bdam.value : 0;
+      const bonusDamUniString = ` + ${bonusDamUni}`;
+      const damage = hr + damVal + bonusDamVal + bonusDamUni;
       const damType =
         item.type === "weapon"
           ? item.system.damageType.value
           : item.system.rollInfo.damage.type.value;
-      const damString = `${hr} (HR) + ${damVal} (${item.type})${bonusDamValString}`;
+      var damGlyph = '';
+      switch (damType) {
+        case 'physical':
+          damGlyph = "'";
+          break;
+        case 'air':
+          damGlyph = 'a';
+          break;
+        case 'bolt':
+          damGlyph = 'b'
+          break;
+        case 'dark':
+          damGlyph = 'd';
+          break;
+        case 'earth':
+          damGlyph = 'E';
+          break;
+        case 'fire':
+          damGlyph = 'f';
+          break;
+        case 'ice':
+          damGlyph = 'i';
+          break;
+        case 'light':
+          damGlyph = 'l';
+          break;
+        case 'poison':
+          damGlyph = 't';
+          break;
+        default:
+          damGlyph = 'c';
+          break;
+      }
 
-      content += `<div class="align-left" style="position: relative; top: 24px;"><div><span style="color: Ivory; font-size: 28px; text-shadow: 2px 2px 4px #000000;  box-shadow:3px 6px DarkSlateGray; background-image: linear-gradient(to right, Teal, MediumAquamarine); border-style:solid; border-width: thin; border-color: DarkSlateGray; border-radius: 8px; padding: 4px;">Damage</span></div><div><span style="color: Ivory; font-size: 16px;  text-shadow: 2px 2px 4px #000000;  box-shadow:3px 6px DarkSlateGray; background-image: linear-gradient(to right, Teal, MediumAquamarine); border-radius: 8px; padding-bottom: 5px; padding-right: 10px; padding-left: 10px;"> ${hr} <strong>(HR)</strong> + ${damVal} </div><div style="float:right; position: relative; bottom:24px;"> <span style="color: Ivory; font-size: 24px;  text-shadow: 2px 2px 4px #000000;  background-image: linear-gradient(to right, RebeccaPurple, Plum); box-shadow:2px 4px Indigo; border-style:solid; border-width: thin; border-color: Indigo; border-radius: 8px; padding: 4px;"> <strong><span style="display:inline-block; text-shadow: 2px 2px Indigo; font-size: 48px;  text-shadow: 2px 2px 4px #000000;  animation: floating 3s infinite ease-in-out;"> ${damage} </span> ${damType}! </span><br /></strong></div></div>`;
+      content += `
+      <div class="damage">
+        <div class="damage-title">
+          DMG
+        </div>
+        <div class="damage-content">
+          <div class="damage-label">
+            ${hr} <strong>[HR]</strong> + ${damVal}${bonusDamUniString}
+          </div>
+          <div class="damage-result damage-${damType}">
+            ${damage} <span class="damage-type"><span class="damage-glyph" title="${damType}"> ${damGlyph}</span></span>
+          </div>
+        </div>
+      </div>`;
     }
 
     return content;
@@ -178,8 +324,28 @@ export class FabulaUltimaItem extends Item {
   getSpellDataString() {
     const item = this;
     return item.type === "spell"
-      ?  `<div class="spelldesc flex-group-center grid grid-3col"> <p>${item.system.mpCost.value} MP</p> <p>${item.system.target.value}</p> <p>${item.system.duration.value}</p> </div>`
+      ? `<div class="spelldesc"> <div><strong>MP:</strong> ${item.system.mpCost.value}</div> <div><strong>Target:</strong> ${item.system.target.value}</div> <div><strong>Duration:</strong> ${item.system.duration.value}</div> </div>`
       : "";
+  }
+
+  getLevelString() {
+    const item = this;
+    return item.type === "class" ? `<div><strong>Level:</strong> ${item.system.level.value}</div>` : item.type === "skill" ? `<div><strong>Class:</strong> ${item.system.class.value}</div><div><strong>Skill Level:</strong> ${item.system.level.value}</div>` : "";
+  }
+
+  getCostString() {
+    const item = this;
+    return item.type === "consumable" ? `<div><strong>IP Cost:</strong> ${item.system.ipCost.value}</div>` : "";
+  }
+
+  getMergeString() {
+    const item = this;
+    return (item.system.merge && item.system.miscType.value === "arcanum") ? `<div class="card-section"><div class="section-label">Merge</div><div class="section-content">${item.system.merge}</div></div>` : "";
+  }
+
+  getDismissString() {
+    const item = this;
+    return (item.system.dismiss && item.system.miscType.value === "arcanum") ? `<div class="card-section"><div class="section-label">Dismiss</div><div class="section-content">${item.system.dismiss}</div></div>` : "";
   }
 
   getTargetFromNumber(num) {
@@ -242,14 +408,15 @@ export class FabulaUltimaItem extends Item {
 
   async getAlchemyString() {
     const item = this;
-    let string = "";
     const level = item.actor.system.level.value;
-    if (item.type === "miscAbility" && item.name.includes("Alchemy")) {
+    let string = '';
+    if (item.type === "miscAbility" && item.system.miscType.value === "alchemy") {
+      string = '<div class="card-section"><div class="section-label">Alchemy</div><div class="section-content">';
       const numRolls = item.name.includes("Superior")
         ? 4
         : item.name.includes("Advanced")
-        ? 3
-        : 2;
+          ? 3
+          : 2;
       const shouldTrim = !item.name.includes("(all)");
       const rollParts = [];
       for (let i = 0; i < numRolls; i++) {
@@ -324,8 +491,8 @@ export class FabulaUltimaItem extends Item {
         string += `<tr><td style="width:65px;">${effect.combo}</td><td>${effect.effect}</td></tr>`;
       });
       string += "</table>";
+      string += '</div></div>';
     }
-
     return string;
   }
 
@@ -340,44 +507,89 @@ export class FabulaUltimaItem extends Item {
     // Initialize chat data.
     const speaker = ChatMessage.getSpeaker({ actor: this.actor });
     const rollMode = game.settings.get("core", "rollMode");
-    const label = `<div class="flex-group-center"><img style="border:0px; -webkit-filter: drop-shadow(2px 2px 4px #000000); filter: drop-shadow(2px 2px 4px #000000);
-	position:relative;bottom:195px;margin-bottom:-200px;"  src="${item.img}" width="48" height="48"></img><p style="line-height: 1.2;color: Ivory; font-size: 24px; text-shadow: 2px 2px 4px #000000; box-shadow:3px 6px Indigo; background-image: linear-gradient(to right, RebeccaPurple, Plum); border-style:solid; border-width: thin; border-color: DarkSlateGray; padding: 10px; border-radius: 12px;">${item.name}</p></div>`;
 
     // If there's no roll data, send a chat message.
     if (!this.system.formula) {
-      const desc = `<div class="chat-desc">${item.system.description}</div>`;
+      const desc = item.system.description ? `<div class="chat-desc"><div class="desc-title">INFO</div><div class="desc-content">${item.system.description}</div></div>` : "";
       const attackData = await this.getRollString();
       const spellString = this.getSpellDataString();
+      const levelString = this.getLevelString();
+      const costString = this.getCostString();
       const alchemyString = await this.getAlchemyString();
-      const qualityString = item.system.quality?.value
-        ? item.system.quality.value
-        : "";
-
+      const mergeString = this.getMergeString();
+      const dismissString = this.getDismissString();
+      var startRoll = '<div class="item-roll ' + item.type + '">';
+      const endRoll = '</div>';
+      var qualityString = "";
+      if (item.system.quality?.value) {
+        qualityString = item.system.quality.value;
+      }
+      else if (spellString) {
+        qualityString = spellString;
+      }
+      else if (levelString) {
+        qualityString = levelString;
+      }
+      else if (costString) {
+        qualityString = costString;
+      }
+      else if (this.type === "miscAbility") {
+        qualityString = `<div class="capitalize"><strong>Misc. Ability:</strong> ${item.system.miscType.value}</div>`;
+        if (item.system.miscType.value === "arcanum") {
+          qualityString = `<div><strong>Domains:</strong> ${this.system.domain.value}</div>`;
+        }
+      }
+      else {
+        qualityString = "No Quality";
+      }
       const attackString = Array.isArray(attackData)
-        ? attackData.join("<br /><br />")
+        ? attackData.join("")
         : attackData;
 
+      const label = `
+        <div class="message-head">
+          <div class="message-img">
+            <img src="${item.img}" width="48" height="48" />
+          </div>
+          <div class="message-title">
+            <div class="message-name">
+              ${item.name}
+            </div>
+            <div class="message-quality">
+              ${qualityString}
+            </div>
+          </div>
+        </div>
+      `;
+
       let content = [
-        spellString,
+        startRoll,
         desc,
+        mergeString,
+        dismissString,
         attackString,
-        qualityString,
         alchemyString,
+        endRoll,
       ]
         .filter((part) => part)
         .join("");
 
       content = content ? `${content}` : "";
 
-      const shouldShowNotification =
-        ["spell", "weapon", "consumable"].includes(item.type) ||
+      var shouldShowNotification =
+        ["spell"].includes(item.type) ||
         item.system.showTitleCard?.value;
 
-      if (shouldShowNotification) {
-        socketlib.system.executeForEveryone("floatingText", item.name);
+      if (item.system.hideTitleCard?.value === true) {
+        shouldShowNotification = false;
       }
 
-       ChatMessage.create({
+      let floatingText = item.name;
+      if (shouldShowNotification) {
+        socketlib.system.executeForEveryone("floatingText", floatingText);
+      }
+
+      ChatMessage.create({
         speaker: speaker,
         rollMode: 'roll',
         flavor: label,
@@ -389,6 +601,17 @@ export class FabulaUltimaItem extends Item {
     }
     // Otherwise, create a roll and send a chat message from it.
     else {
+      const label = `
+        <div class="message-head">
+          <div class="message-img">
+            <img src="${item.img}" width="48" height="48" />
+          </div>
+          <div class="message-title">
+            <div class="message-name">
+              ${item.name}
+            </div>
+          </div>
+        </div>`;
       // Retrieve roll data.
       const rollData = this.getRollData();
 

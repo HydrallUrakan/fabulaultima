@@ -5,11 +5,7 @@
     <div class="effect-source">Source</div>
     <div class="effect-source">Duration</div>
     <div class="item-controls effect-controls flexrow">
-      <a
-        class="effect-control"
-        data-action="create"
-        title="{{localize 'FABULAULTIMA.EffectCreate'}}"
-      >
+      <a class="effect-control" data-action="create" title="{{localize 'FABULAULTIMA.EffectCreate'}}">
         <i class="fas fa-plus"></i> {{localize "FABULAULTIMA.Add"}}
       </a>
     </div>
@@ -19,33 +15,19 @@
     {{#each section.effects as |effect|}}
     <li class="item effect flexrow" data-effect-id="{{effect.id}}">
       <div class="item-name effect-name flexrow">
-        <img class="item-image" src="{{effect.icon}}" />
+        <img class="item-image" src="{{effect.icon}}" width="24" height="24" />
         <h4>{{effect.label}}</h4>
       </div>
       <div class="effect-source">{{effect.sourceName}}</div>
       <div class="effect-duration">{{effect.duration.label}}</div>
       <div class="item-controls effect-controls flexrow">
-        <a
-          class="effect-control"
-          data-action="toggle"
-          title="{{localize 'FABULAULTIMA.EffectToggle'}}"
-        >
-          <i
-            class="fas {{#if effect.disabled}}fa-check{{else}}fa-times{{/if}}"
-          ></i>
+        <a class="effect-control" data-action="toggle" title="{{localize 'FABULAULTIMA.EffectToggle'}}">
+          <i class="fas {{#if effect.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
         </a>
-        <a
-          class="effect-control"
-          data-action="edit"
-          title="{{localize 'FABULAULTIMA.EffectEdit'}}"
-        >
+        <a class="effect-control" data-action="edit" title="{{localize 'FABULAULTIMA.EffectEdit'}}">
           <i class="fas fa-edit"></i>
         </a>
-        <a
-          class="effect-control"
-          data-action="delete"
-          title="{{localize 'FABULAULTIMA.EffectDelete'}}"
-        >
+        <a class="effect-control" data-action="delete" title="{{localize 'FABULAULTIMA.EffectDelete'}}">
           <i class="fas fa-trash"></i>
         </a>
       </div>
@@ -54,3 +36,220 @@
   </ol>
   {{/each}}
 </ol>
+
+<div class="grid grid-2col">
+  <div class="bonuses">
+
+    <label class="feature-section">
+      <p class="sheet-labels" style="text-align:center;"> Bonuses
+      </p>
+    </label>
+    <section class="main grid-span-2 bonus-features">
+      <div class="resource flex-group-center">
+        <label for="system.health.value" class="resource-label">HP</label>
+        <input type="text" name="system.resources.hp.bonus" value="{{system.resources.hp.bonus}}" data-dtype="Number" />
+      </div>
+      <div class="resource flex-group-center">
+        <label for="system.health.value" class="resource-label">MP</label>
+        <input type="text" name="system.resources.mp.bonus" value="{{system.resources.mp.bonus}}" data-dtype="Number" />
+      </div>
+      <div class="resource flex-group-center">
+        <label for="system.health.value" class="resource-label">Def</label>
+        <input type="text" name="system.derived.def.bonus" value="{{system.derived.def.bonus}}" data-dtype="Number" />
+      </div>
+      <div class="resource flex-group-center">
+        <label for="system.health.value" class="resource-label">MDef</label>
+        <input type="text" name="system.derived.mdef.bonus" value="{{system.derived.mdef.bonus}}" data-dtype="Number" />
+      </div>
+      <div class="resource flex-group-center">
+        <label for="system.health.value" class="resource-label">Init</label>
+        <input type="text" name="system.derived.init.bonus" value="{{system.derived.init.bonus}}" data-dtype="Number" />
+      </div>
+      <div class="resource flex-group-center">
+        <label for="system.health.value" class="resource-label">Melee</label>
+        <input type="text" name="system.derived.matt.bonus" value="{{system.derived.matt.bonus}}" data-dtype="Number" />
+      </div>
+      <div class="resource flex-group-center">
+        <label for="system.health.value" class="resource-label">Ranged</label>
+        <input type="text" name="system.derived.ratt.bonus" value="{{system.derived.ratt.bonus}}" data-dtype="Number" />
+      </div>
+      <div class="resource flex-group-center">
+        <label for="system.health.value" class="resource-label">Magic</label>
+        <input type="text" name="system.derived.satt.bonus" value="{{system.derived.satt.bonus}}" data-dtype="Number" />
+      </div>
+      <div class="resource flex-group-center">
+        <label for="system.health.value" class="resource-label">Damage</label>
+        <input type="text" name="system.derived.bdam.bonus" value="{{system.derived.bdam.bonus}}" data-dtype="Number" />
+      </div>
+      <div class="resource flex-group-center">
+        <label for="system.health.value" class="resource-label">DR</label>
+        <input type="text" name="system.derived.dred.bonus" value="{{system.derived.dred.bonus}}" data-dtype="Number" />
+      </div>
+    </section>
+  </div>
+  <div class="resistances">
+    <label class="feature-section">
+      <p class="sheet-labels" style="text-align:center;"> Resistances
+      </p>
+    </label>
+    <div class="grid grid-3col resistances">
+
+      <!-- Physical -->
+      <div class="flex-group-center">
+        <label class="res-label physical">
+          <div class="res-glyph glyph">'</div>
+          <div class="res-text">Physical</div>
+        </label>
+        <select value="{{system.resistances.phys}}" name="system.resistances.phys">
+          {{#select system.resistances.phys}}
+          <option value="NA">-</option>
+          <option value="VU">VU</option>
+          <option value="RS">RS</option>
+          <option value="IM">IM</option>
+          <option value="AB">AB</option>
+          {{/select}}
+        </select>
+      </div>
+
+      <!-- Air -->
+      <div class="flex-group-center">
+        <label class="res-label air">
+          <div class="res-glyph glyph">a</div>
+          <div class="res-text">Air</div>
+        </label>
+        <select value="{{system.resistances.air}}" name="system.resistances.air">
+          {{#select system.resistances.air}}
+          <option value="NA">-</option>
+          <option value="VU">VU</option>
+          <option value="RS">RS</option>
+          <option value="IM">IM</option>
+          <option value="AB">AB</option>
+          {{/select}}
+        </select>
+      </div>
+
+      <!-- Bolt -->
+      <div class="flex-group-center">
+        <label class="res-label bolt">
+          <div class="res-glyph glyph">b</div>
+          <div class="res-text">Bolt</div>
+        </label>
+        <select value="{{system.resistances.bolt}}" name="system.resistances.bolt">
+          {{#select system.resistances.bolt}}
+          <option value="NA">-</option>
+          <option value="VU">VU</option>
+          <option value="RS">RS</option>
+          <option value="IM">IM</option>
+          <option value="AB">AB</option>
+          {{/select}}
+        </select>
+      </div>
+
+      <!-- Dark -->
+      <div class="flex-group-center">
+        <label class="res-label dark">
+          <div class="res-glyph glyph">d</div>
+          <div class="res-text">Dark</div>
+        </label>
+        <select value="{{system.resistances.dark}}" name="system.resistances.dark">
+          {{#select system.resistances.dark}}
+          <option value="NA">-</option>
+          <option value="VU">VU</option>
+          <option value="RS">RS</option>
+          <option value="IM">IM</option>
+          <option value="AB">AB</option>
+          {{/select}}
+        </select>
+      </div>
+
+      <!-- Earth -->
+      <div class="flex-group-center">
+        <label class="res-label earth">
+          <div class="res-glyph glyph">E</div>
+          <div class="res-text">Earth</div>
+        </label>
+        <select value="{{system.resistances.earth}}" name="system.resistances.earth">
+          {{#select system.resistances.earth}}
+          <option value="NA">-</option>
+          <option value="VU">VU</option>
+          <option value="RS">RS</option>
+          <option value="IM">IM</option>
+          <option value="AB">AB</option>
+          {{/select}}
+        </select>
+      </div>
+
+      <!-- Poison -->
+      <div class="flex-group-center">
+        <label class="res-label fire">
+          <div class="res-glyph glyph">f</div>
+          <div class="res-text">Fire</div>
+        </label>
+        <select value="{{system.resistances.fire}}" name="system.resistances.fire">
+          {{#select system.resistances.fire}}
+          <option value="NA">-</option>
+          <option value="VU">VU</option>
+          <option value="RS">RS</option>
+          <option value="IM">IM</option>
+          <option value="AB">AB</option>
+          {{/select}}
+        </select>
+      </div>
+
+      <!-- Poison -->
+      <div class="flex-group-center">
+        <label class="res-label ice">
+          <div class="res-glyph glyph">i</div>
+          <div class="res-text">Ice</div>
+        </label>
+        <select value="{{system.resistances.ice}}" name="system.resistances.ice">
+          {{#select system.resistances.ice}}
+          <option value="NA">-</option>
+          <option value="VU">VU</option>
+          <option value="RS">RS</option>
+          <option value="IM">IM</option>
+          <option value="AB">AB</option>
+          {{/select}}
+        </select>
+      </div>
+
+      <!-- Poison -->
+      <div class="flex-group-center">
+        <label class="res-label light">
+          <div class="res-glyph glyph">l</div>
+          <div class="res-text">Light</div>
+        </label>
+        <select value="{{system.resistances.light}}" name="system.resistances.light">
+          {{#select system.resistances.light}}
+          <option value="NA">-</option>
+          <option value="VU">VU</option>
+          <option value="RS">RS</option>
+          <option value="IM">IM</option>
+          <option value="AB">AB</option>
+          {{/select}}
+        </select>
+      </div>
+
+      <!-- Poison -->
+      <div class="flex-group-center">
+        <label class="res-label poison">
+          <div class="res-glyph glyph">t</div>
+          <div class="res-text">Poison</div>
+        </label>
+        <select value="{{system.resistances.poison}}" name="system.resistances.poison">
+          {{#select system.resistances.poison}}
+          <option value="NA">-</option>
+          <option value="VU">VU</option>
+          <option value="RS">RS</option>
+          <option value="IM">IM</option>
+          <option value="AB">AB</option>
+          {{/select}}
+        </select>
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>

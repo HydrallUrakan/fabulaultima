@@ -13,7 +13,6 @@
           type="text"
           value="{{item.name}}"
           placeholder="Name"
-		  style="color: ivory; background-color: transparent; border-color: transparent;"
         />
       </h1>
     </div>
@@ -161,7 +160,7 @@
         <option value="ice">ice</option>
         <option value="light">light</option>
         <option value="poison">poison</option>
-        <option value="">untyped</option>
+        <option value="untyped">untyped</option>
         {{/select}}
       </select>
       <div class="resource">
@@ -173,6 +172,17 @@
           data-dtype="Number"
         />
       </div>
+      <label class="checkbox">
+        <span>Hide Title Card?</span
+        ><input
+          type="checkbox"
+          name="system.hideTitleCard.value"
+          {{
+          checked
+          system.hideTitleCard.value
+          }}
+        />
+      </label>
     </div>
   </section>
 </form>

@@ -1,24 +1,40 @@
 .window-app {
   font-family: $font-primary;
+  &.actor .window-content {
+    padding: 0;
+    scrollbar-gutter: stable;
+    background: transparent;
+    .fabulaultima-actor-sheet {
+      //padding: 8px;
+    }
+  }
 }
 
 .rollable {
+  cursor: pointer;
   &:hover,
   &:focus {
     color: #000;
-    text-shadow: 0 0 10px red;
+    text-shadow: 0 0 10px $shadow-color;
+  }
+  * {
     cursor: pointer;
   }
 }
 
 .notification.fabulaultima-spellname {
-  background-color: MediumAquamarine;
-  border: 5px solid SeaGreen;
-  padding: 1rem;
-  border-radius: 5px;
-  font-size: 2rem;
+  animation: fadeOut;
+  font-family: $font-bell;
+  animation-delay: 4s;
+  animation-duration: 1.5s;
   text-align: center;
-
+  color: Ivory;
+  font-size: 48px;
+  background-image: linear-gradient(to right, $fabula-crystal, $fabula-sky);
+  border: 3px solid $fabula-light;
+  padding: 0.5em;
+  margin: auto;
+  border-radius: 3px;
   .close {
     display: none;
   }

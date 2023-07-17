@@ -39,27 +39,6 @@ Hooks.once("init", async function () {
 
   CONFIG.statusEffects = [
     {
-      id: "accelerated",
-      label: "Accelerated",
-      icon: "systems/fabulaultima/images/Accelerated.webp",
-	  stats: ["ins"],
-	  mod: 0,
-    },
-    {
-      id: "aura",
-      label: "Aura",
-      icon: "systems/fabulaultima/images/Aura.webp",
-	  stats: ["ins"],
-	  mod: 0,
-    },
-    {
-      id: "barrier",
-      label: "Barrier",
-      icon: "systems/fabulaultima/images/Barrier.webp",
-	  stats: ["ins"],
-	  mod: 0,
-    },
-    {
       id: "dazed",
       label: "Dazed",
       icon: "systems/fabulaultima/images/Dazed.webp",
@@ -67,37 +46,11 @@ Hooks.once("init", async function () {
       mod: -2,
     },
     {
-      id: "dex-up",
-      label: "DEX Up",
-      icon: "systems/fabulaultima/images/DexUp.webp",
-      stats: ["dex"],
-      mod: 2,
-    },
-    {
       id: "enraged",
       label: "Enraged",
       icon: "systems/fabulaultima/images/Enraged.webp",
       stats: ["dex", "ins"],
       mod: -2,
-    },
-    {
-      id: "ins-up",
-      label: "INS Up",
-      icon: "systems/fabulaultima/images/InsUp.webp",
-      stats: ["ins"],
-      mod: 2,
-    },
-    {
-      id: "ko",
-      label: "KO",
-      icon: "systems/fabulaultima/images/KO.webp",
-    },
-    {
-      id: "mig-up",
-      label: "MIG Up",
-      icon: "systems/fabulaultima/images/MigUp.webp",
-      stats: ["mig"],
-      mod: 2,
     },
     {
       id: "shaken",
@@ -128,6 +81,48 @@ Hooks.once("init", async function () {
       mod: -2,
     },
     {
+      id: "accelerated",
+      label: "Accelerated",
+      icon: "systems/fabulaultima/images/Accelerated.webp",
+      stats: ["ins"],
+      mod: 0,
+    },
+    {
+      id: "aura",
+      label: "Aura",
+      icon: "systems/fabulaultima/images/Aura.webp",
+      stats: ["mdef"],
+      mod: 12,
+    },
+    {
+      id: "barrier",
+      label: "Barrier",
+      icon: "systems/fabulaultima/images/Barrier.webp",
+      stats: ["def"],
+      mod: 12,
+    },
+    {
+      id: "dex-up",
+      label: "DEX Up",
+      icon: "systems/fabulaultima/images/DexUp.webp",
+      stats: ["dex"],
+      mod: 2,
+    },
+    {
+      id: "ins-up",
+      label: "INS Up",
+      icon: "systems/fabulaultima/images/InsUp.webp",
+      stats: ["ins"],
+      mod: 2,
+    },
+    {
+      id: "mig-up",
+      label: "MIG Up",
+      icon: "systems/fabulaultima/images/MigUp.webp",
+      stats: ["mig"],
+      mod: 2,
+    },
+    {
       id: "wlp-up",
       label: "WLP Up",
       icon: "systems/fabulaultima/images/WlpUp.webp",
@@ -138,9 +133,23 @@ Hooks.once("init", async function () {
       id: "crisis",
       label: "Crisis",
       icon: "systems/fabulaultima/images/Status_Bleeding.png",
-	  stats: ["ins"],
-	  mod: 0,
+      stats: ["ins"],
+      mod: 0,
     },
+    {
+      id: "ko",
+      label: "KO",
+      icon: "systems/fabulaultima/images/KO.webp",
+      stats: ["ins"],
+      mod: 0,
+    },
+    {
+      id: "weapon",
+      label: "Weapon Buff",
+      icon: "systems/fabulaultima/images/wepbuff.webp",
+      stats: ["ins"],
+      mod:0,
+    }
   ];
 
   // Register sheet application classes
@@ -174,6 +183,27 @@ Handlebars.registerHelper("concat", function () {
 
 Handlebars.registerHelper("toLowerCase", function (str) {
   return str.toLowerCase();
+});
+
+Handlebars.registerHelper("toUpperCase", function (str) {
+  return str.toUpperCase();
+});
+
+Handlebars.registerHelper("math", function(lvalue, operator, rvalue, options) {
+  lvalue = parseFloat(lvalue);
+  rvalue = parseFloat(rvalue);
+      
+  return {
+      "+": lvalue + rvalue,
+      "-": lvalue - rvalue,
+      "*": (lvalue * rvalue).toFixed(2),
+      "/": lvalue / rvalue,
+      "%": lvalue % rvalue
+  }[operator];
+});
+
+Handlebars.registerHelper('ifGreater', function(arg1, arg2, options) {
+  return (arg1 > arg2) ? options.fn(this) : options.inverse(this);
 });
 
 /* -------------------------------------------- */
