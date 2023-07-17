@@ -324,15 +324,23 @@
 
           </div>
         </aside>
-        <section class="flex3 npc-border">
-          <div class="border-label">
-            Description
-          </div>
-          <span>
-            {{editor system.description target="system.description" rollData=rollData
-            button=true owner=owner editable=editable}}
-          </span>
-        </section>
+        <div class="flex3 flexcol">
+          <section class="npc-border flexshrink">
+            <div class="border-label">
+              Traits
+            </div>
+            <span class="npc-traits"><input name="system.traits.value" type="text" value="{{system.traits.value}}" placeholder="Traits" /></span>
+          </section>
+          <section class="npc-border">
+            <div class="border-label">
+              Description
+            </div>
+            <span>
+              {{editor system.description target="system.description" rollData=rollData
+              button=true owner=owner editable=editable}}
+            </span>
+          </section>
+        </div>
         {{!-- For the main features list, span the right two columns --}}
         <section class="npc-border">
           <div class="border-label">

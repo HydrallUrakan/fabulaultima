@@ -84,7 +84,8 @@
       "isElite": { "value": false },
       "isChampion": { "value": 1 },
       "isCompanion": { "value": false },
-      "companion": { "master": 0, "skill": 0 }
+      "companion": { "master": 0, "skill": 0 },
+      "traits": {"value": ""}
     }
   },
   "Item": {

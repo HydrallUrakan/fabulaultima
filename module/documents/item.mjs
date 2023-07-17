@@ -126,7 +126,7 @@ export class FabulaUltimaItem extends Item {
       : item.type === "spell"
         ? this.actor.system.derived.satt.value
         : 0;
-    if (this.actor.system.isCompanion.value) {
+    if (this.actor.system.isCompanion?.value) {
       effectBonus += this.actor.system.companion.skill;      
     }
 
