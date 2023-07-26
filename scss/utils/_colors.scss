@@ -1,0 +1,57 @@
+$c-white: #fff;
+$c-black: #000;
+
+$c-dark: #191813;
+$c-faint: #c9c7b8;
+$c-beige: #b5b3a4;
+$c-tan: #444;
+
+$fabula-black:      #1d1d1b; //Big Text
+$fabula-gray:       #5a5a5a; //Text
+$fabula-greendark:  #2b4a42; //Headings
+$fabula-greenhover: #4d6c64;
+$fabula-greenthird: #2b4a4250;
+$fabula-greenlight: #e1efe3; //Background
+$fabula-light:      #feffff; //White
+$fabula-crystal:    #02449c; //Crystal Gradient Top
+$fabula-sky:        #05f7fd; //Crystal Gradient Bottom
+$fabula-orange:     #fb5f08; //Star Gradient Top
+$fabula-yellow:     #f3f908; //Star Gradient Bottom
+$fabula-teal:       #508d8d;
+
+$fabula-warning:      #b82315;
+$fabula-optional:     #d37928;
+
+$fabula-gold:       #a27c33; //Introduction
+$fabula-blue:       #005591; //Rules
+$fabula-green:      #286726; //Press Start
+$fabula-red:        #831102; //Game Master
+$fabula-purple:     #582e58; //Bestiary
+
+
+$font-color: $fabula-black;
+$labels: $fabula-greendark;
+$shadow-color: transparent;
+
+$tab-color: $fabula-light;
+$tab-background: $fabula-greendark;
+$tab-alt: $fabula-greenlight;
+$tab-alt-background: $fabula-greendark;
+
+$heading-text: $fabula-light;
+$heading-background: $fabula-greendark;
+
+$sheet-background: $fabula-light; 
+$border: $fabula-greendark;
+
+$items-border: $fabula-greendark;
+$flexrow-border: $fabula-gray;
+$flexrow-background: $fabula-greenlight;
+
+
+
+\:root {
+    --font-color: $font-color;
+    --border-color: $border;
+    --tab-color: $tab-color;
+}

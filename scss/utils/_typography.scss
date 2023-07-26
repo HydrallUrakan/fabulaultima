@@ -1,0 +1,17 @@
+$font-primary: "BaiJamjuree", sans-serif;
+$font-secondary: 'Roboto', sans-serif;
+$font-tertiary: 'Antonio', sans-serif;
+$font-bell: 'Bellefair', serif;
+$font-glyph: 'Glyphter', serif;
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.glyph {
+    font-family: $font-glyph;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}

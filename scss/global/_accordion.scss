@@ -1,0 +1,9 @@
+.accordion-label {
+    cursor: pointer;
+}
+.accordion .accordion-content {
+    display: none;
+}
+.accordion.active .accordion-content {
+    display: block;
+}

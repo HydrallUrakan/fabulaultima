@@ -1,0 +1,344 @@
+.chat-message {
+    background: $fabula-light;
+    .message-header {
+        .message-head {
+            display: flex;
+            margin-left: -5px;
+            margin-right: -5px;
+            .message-img {
+                border: 1px solid $fabula-greendark;
+                border-right: 2px solid $fabula-greendark;
+                padding: 3px;
+                border-left: none;
+                display: flex;
+                align-items: center;
+            }
+            .message-title {
+                border-bottom: 1px solid $fabula-greendark;
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                .message-name {
+                    padding: 3px;
+                    padding-left: 6px;
+                    background-image: linear-gradient(to right, $fabula-greenlight, $fabula-light);
+                    font-size: 24px;
+                    line-height: 1em;
+                    font-weight: bold;
+                    font-family: $font-tertiary;
+                    text-transform: uppercase;
+                    border: 2px solid;
+                    border-image-source: linear-gradient(to right, $fabula-greendark, transparent);
+                    border-image-slice: 1;
+                    border-width: 2px;
+                    border-left: 0;
+                    border-right: 0;
+                    border-top: 0;
+                }
+                .message-quality {
+                    padding: 3px;
+                    padding-left: 6px;
+                    flex: 1;
+                }
+            }
+        }
+    }
+    .message-content {
+        .item-roll {
+            margin-bottom: -5px;
+            >* {
+                position: relative;
+                &:after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    border-bottom: 1px solid $fabula-greendark;
+               }
+                &:last-child {
+                    &:after {
+                        content: none;
+                    }
+                }
+            }
+            .card-section {
+                display: flex;
+                margin-left: -5px;
+                margin-right: -5px;
+                &.weapon-name {
+                    border-top: 2px solid $fabula-greendark;
+                    font-weight: bold;
+                    strong {
+                        font-size: 120%;
+                        vertical-align: middle;
+                        font-family: $font-tertiary;
+                    }
+                }
+                strong {
+                    color: $fabula-greendark;
+                }
+                &:empty {
+                    all: unset;
+                }
+                .section-label {
+                    writing-mode: vertical-lr;
+                    transform: scale(-1, -1);
+                    background: $fabula-greenlight;
+                    padding: 5px;
+                    padding-right: 10px;
+                    color: $fabula-greendark;
+                    text-transform: uppercase;
+                    font-family: $font-tertiary;
+                    display: flex;
+                    justify-content: flex-end;
+                }
+                .section-content {
+                    padding: 3px 6px;
+                    flex: 1;
+                    p:first-child {
+                        margin-top: 0;
+                    }
+                }
+            }
+            .chat-desc {
+                display: flex;
+                margin-left: -5px;
+                margin-right: -5px;
+                strong {
+                    color: $fabula-greendark;
+                }
+                &:empty {
+                    all: unset;
+                }
+                .desc-title {
+                    writing-mode: vertical-lr;
+                    transform: scale(-1, -1);
+                    background: $fabula-greenlight;
+                    padding: 5px;
+                    padding-right: 10px;
+                    color: $fabula-greendark;
+                    text-transform: uppercase;
+                    font-family: $font-tertiary;
+                    display: flex;
+                    justify-content: flex-end;
+                }
+                .desc-content {
+                    padding: 3px 6px;
+                    flex: 1;
+                    p:first-child {
+                        margin-top: 0;
+                    }
+                }
+            }
+            .accuracy {
+                display: flex;
+                margin-left: -5px;
+                margin-right: -5px;
+                .accuracy-title {
+                    writing-mode: vertical-lr;
+                    transform: scale(-1, -1);
+                    background: $fabula-greenlight;
+                    padding: 5px;
+                    padding-right: 10px;
+                    color: $fabula-greendark;
+                    text-transform: uppercase;
+                    font-family: $font-tertiary;
+                    display: flex;
+                    justify-content: flex-end;
+                }
+                .accuracy-content {
+                    padding: 3px 6px;
+                    flex: 1;
+                    .crit-label {
+                        strong {
+                            color: $fabula-warning;
+                        }
+                    }
+                    .accuracy-label {
+                        strong {
+                            font-size: 10px;
+                            vertical-align: top;
+                        }
+                    }
+                    .accuracy-result {
+                        .accuracy-result-label {
+                            margin-top: 5px;
+                            font-size: 18px;
+                            .accuracy-result-number {
+                                font-size: 24px;
+                            }
+                        }
+                        .targets-row {
+                            display: flex;
+                            flex-wrap: wrap;
+                            justify-content: flex-start;
+                            .target-box {
+                                margin-right: 10px;
+                                margin-bottom: 5px;
+                                min-width: 20%;
+                                .target-name {
+                                    text-align: center;
+                                    font-weight: bold;
+                                }
+                                .target-hit {
+                                    font-weight: bold;
+                                    font-size: 18px;
+                                    text-transform: capitalize;
+                                    text-align: center;
+                                    &.hit {
+                                        color: $fabula-gray;
+                                    }
+                                    &.crit {
+                                        color: $fabula-gold;
+                                    }
+                                    &.miss {
+                                        color: $fabula-red;
+                                    }
+                                    &.fumble {
+                                        color: $fabula-warning;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .damage {
+                display: flex;
+                margin-left: -5px;
+                margin-right: -5px;
+                .damage-title {
+                    writing-mode: vertical-lr;
+                    transform: scale(-1, -1);
+                    background: $fabula-greenlight;
+                    padding: 5px;
+                    padding-right: 10px;
+                    color: $fabula-greendark;
+                    text-transform: uppercase;
+                    font-family: $font-tertiary;
+                    display: flex;
+                    justify-content: flex-end;
+                }
+                .damage-content {
+                    padding: 3px 6px;
+                    flex: 1;
+                    .damage-label {
+                        strong {
+                            font-size: 10px;
+                            vertical-align: top;
+                        }
+                    }
+                    .damage-result {
+                        font-size: 24px;
+                        font-weight: bold;
+                        .damage-type {
+                            .damage-glyph {
+                                font-family: $font-glyph;
+                                font-size: 18px;
+                            }
+                        }
+                        &.damage-physical {
+                            color: $fabula-gray;
+                        }
+                        &.damage-air {
+                            color: $fabula-greendark;
+                        }
+                        &.damage-bolt {
+                            color: $fabula-sky;
+                        }
+                        &.damage-dark {
+                            color: $fabula-purple;
+                        }
+                        &.damage-earth {
+                            color: $fabula-optional;
+                        }
+                        &.damage-ice {
+                            color: $fabula-crystal;
+                        }
+                        &.damage-fire {
+                            color: $fabula-warning;
+                        }
+                        &.damage-light {
+                            color: $fabula-gold;
+                        }
+                        &.damage-poison {
+                            color: $fabula-green;
+                        }
+                    }
+                    .damage-buttons {
+                        display: flex;
+                    }
+                }
+            }
+        }
+    }
+}
+.card-section {
+    display: flex;
+    margin-left: -5px;
+    margin-right: -5px;
+    &.weapon-name {
+        border-top: 2px solid $fabula-greendark;
+        font-weight: bold;
+        strong {
+            font-size: 120%;
+            vertical-align: middle;
+            font-family: $font-tertiary;
+        }
+    }
+    strong {
+        color: $fabula-greendark;
+    }
+    &:empty {
+        all: unset;
+    }
+    .section-label {
+        writing-mode: vertical-lr;
+        transform: scale(-1, -1);
+        background: $fabula-greenlight;
+        padding: 5px;
+        padding-right: 10px;
+        color: $fabula-greendark;
+        text-transform: uppercase;
+        font-family: $font-tertiary;
+        display: flex;
+        justify-content: flex-end;
+    }
+    .section-content {
+        padding: 3px 6px;
+        flex: 1;
+        p:first-child {
+            margin-top: 0;
+        }
+    }
+}
+.desc-card {
+    display: flex;
+    strong {
+        color: $fabula-greendark;
+    }
+    &:empty {
+        all: unset;
+    }
+    .desc-card-label {
+        writing-mode: vertical-lr;
+        transform: scale(-1, -1);
+        background: $fabula-greenlight;
+        padding: 5px;
+        padding-right: 10px;
+        color: $fabula-greendark;
+        text-transform: uppercase;
+        font-family: $font-tertiary;
+        display: flex;
+        justify-content: flex-end;
+    }
+    .desc-card-content {
+        padding: 3px 6px;
+        flex: 1;
+        p:first-child {
+            margin-top: 0;
+        }
+    }
+}

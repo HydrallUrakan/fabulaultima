@@ -1,0 +1,212 @@
+// Section Header
+.items-list .item.items-header {
+  height: 32px;
+  margin: 2px 0;
+  padding: 0;
+  align-items: center;
+  border: transparent;
+  background-color: $tab-background;
+  color: ivory;
+  > * {
+    font-size: 16px;
+    text-align: center;
+    color: ivory;
+    font-family: $font-tertiary;
+    text-transform: uppercase;
+    font-weight: 200;
+  }
+  .item-name {
+    font-weight: bold;
+    padding-left: 8px;
+    text-align: left;
+    display: flex;
+    color: ivory;
+    // font-size: 16px;
+  }
+}
+
+/* ----------------------------------------- */
+/*  Items Lists                              */
+/* ----------------------------------------- */
+
+.items-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: visible;
+  scrollbar-width: thin;
+  color: $c-tan;
+  border-left: 3px solid $items-border;
+  border-bottom: 1px solid $items-border;
+
+  // Child lists
+  .item-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  // Item Name
+  .item-name {
+    flex: 2;
+    margin: 0;
+    overflow: visible;
+    font-size: 13px;
+    text-align: left;
+    align-items: center;
+    display: flex;
+    h3, h4 {
+      margin: 0;
+      white-space: nowrap;
+      overflow-x: visible;
+    }
+  }
+
+  // Control Buttons
+  .item-controls {
+    display: flex;
+    flex: 0 0 70px;
+    justify-content: flex-end;
+    align-items: center;
+    a {
+      font-size: 12px;
+      text-align: center;
+      margin: 0 6px;
+    }
+  }
+
+  // Individual Item
+  .item {
+    align-items: center;
+    padding: 0 2px 5px; // to align with the header border
+    border-bottom: 2px solid $items-border;
+    margin-bottom: 5px;
+    &:last-child { border-bottom: none; margin-bottom: 0; }
+    .item-name {
+      color: $c-dark;
+      font-weight: bold;
+      .item-image {
+        border: none;
+        margin-right: 5px;
+      }
+      &.effect-name {
+        .item-image {
+          flex: none;
+        }
+      }
+    }
+  }
+
+  .item-prop {
+    text-align: center;
+    border-left: 1px solid #c9c7b8;
+    border-right: 1px solid #c9c7b8;
+    font-size: 12px;
+  }
+
+  // Section Header
+  .items-header {
+    height: 32px;
+    margin: 2px 0;
+    padding: 0;
+    align-items: center;
+    font-weight: bold;
+    color: ivory;
+    > * {
+      font-size: 12px;
+      background-color: $tab-background;
+      border-style:solid;
+      border-width: thin;
+      border-color: DarkSlateGray;
+      text-align: center;
+    }
+    .item-name {
+      padding-left: 5px;
+      text-align: left;
+      // font-size: 16px;
+    }
+  }
+}
+
+/* Example style for FabulaUltima (can be removed if not needed) */
+.item-formula {
+  flex: 0 0 200px;
+  padding: 0 8px;
+}
+
+.item-def,
+.item-mdef,
+.item-init,
+.item-level {
+  flex: 0 0 50px;
+  padding: 0 8px;
+  text-align: center;
+  input {
+    max-width: 50px;
+  }
+}
+
+.item-equipped,
+.item-mpcost,
+.item-ip-cost {
+  flex: 0 0 83px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.is-martial {
+  color: red;
+}
+
+.item-attack,
+.item-class,
+.item-target,
+.item-duration,
+.item-level,
+.item-costs {
+  flex: 0 0 150px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-costs span {
+  margin-right: 3px;
+}
+
+.item-target,
+.item-damage {
+  flex: 0 0 165px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-attack,
+.item-class,
+.item-damage,
+.item-level {
+  font-weight: bold;
+}
+
+span[data-tooltip] {
+  display: inline-block;
+  padding: 5px;
+  background-color: #fff;
+  border: 1px solid #aaa;
+}
+
+.item .flexrow {
+  background-image: linear-gradient(to right, $flexrow-background, transparent);
+  border: 1px solid;
+  border-image-source: linear-gradient(to right, $flexrow-border, $sheet-background);
+  border-image-slice: 1;
+  border-width: 1px;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+}
