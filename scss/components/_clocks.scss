@@ -1,0 +1,27 @@
+.window-app.actor.lancer-clocks {
+    .window-content {
+        background-image: url("/systems/fabulaultima/images/0.png"), linear-gradient(to left, white, $sheet-background);
+        background-blend-mode: multiply;
+        background-repeat: repeat-y;
+        background-position: top right;
+
+        .clock-name input {
+            text-align: center;
+        }
+
+        .clock-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                height: auto;
+                width: auto;
+                margin-top: 5px;
+                margin-bottom: 5px;
+                max-width: 350px;
+                max-height: 350px;
+            }
+        }
+    }
+}

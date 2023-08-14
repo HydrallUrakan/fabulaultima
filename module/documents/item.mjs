@@ -658,13 +658,14 @@ export class FabulaUltimaItem extends Item {
         shouldShowNotification = false;
       }
 
-      let floatingText = item.name;
+      let floatingText = `<div class="fabula-floating"><img src="${item.img}" width="48" height="48" /></div> <span>${item.name}</span>`;
       let floatingType = "fabulaultima-spellname";
+      let floatingImg = item.img;
       if (item.type === "zeroeffect") {
         floatingType = "fabulaultima-spellname zeropower";
       }
       if (shouldShowNotification) {
-        socketlib.system.executeForEveryone("floatingText", floatingText, floatingType);
+        socketlib.system.executeForEveryone("floatingText", floatingText, floatingType, floatingImg);
       }
 
       ChatMessage.create({

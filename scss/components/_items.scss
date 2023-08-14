@@ -140,6 +140,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
 }
 
 .item-def,
@@ -169,14 +170,29 @@
   color: red;
 }
 
-.item-attack,
+.item-attack {
+  flex: 0 0 135px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 .item-class,
 .item-target,
 .item-duration,
 .item-level,
-.item-costs,
 .item-misctype {
   flex: 0 0 125px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.item-costs {
+  flex: 0 0 90px;
   padding: 0 8px;
   display: flex;
   align-items: center;
