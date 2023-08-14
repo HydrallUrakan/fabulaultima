@@ -149,6 +149,13 @@ Hooks.once("init", async function () {
       icon: "systems/fabulaultima/images/wepbuff.webp",
       stats: ["ins"],
       mod:0,
+    },
+    {
+      id: "symbol",
+      label: "Symbol",
+      icon: "systems/fabulaultima/images/symbol.webp",
+      stats: ["ins"],
+      mod:0,
     }
   ];
 
@@ -213,6 +220,44 @@ Handlebars.registerHelper('ifGreater', function(arg1, arg2, options) {
 Hooks.once("ready", async function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => createItemMacro(data, slot));
+
+  game.settings.register("fabulaultima", "enableZero", {
+		name: "Enable Zero Powers",
+		hint: "Adds a section under abilities for zero powers.",
+		scope: "world",
+		default: false,
+		type: Boolean,
+		config: true,
+		requiresReload: true,
+	});
+  game.settings.register("fabulaultima", "enableZeroClock", {
+		name: "Enable Zero Power Resource",
+		hint: "Adds a resource to the character sheet for Zero Power progress. Does nothing without Zero Powers. Disable if using a different method.",
+		scope: "world",
+		default: false,
+		type: Boolean,
+		config: true,
+		requiresReload: true,
+	});
+  game.settings.register("fabulaultima", "enableQuirks", {
+		name: "Enable Quirks",
+		hint: "Adds a section for Quirks above classes in the Features section.",
+		scope: "world",
+		default: false,
+		type: Boolean,
+		config: true,
+		requiresReload: true,
+	});
+  game.settings.register("fabulaultima", "enableActivities", {
+		name: "Enable Camp Activities",
+		hint: "Adds a section for Camp Activities.",
+		scope: "world",
+		default: false,
+		type: Boolean,
+		config: true,
+		requiresReload: true,
+	});
+
 });
 
 Hooks.once("socketlib.ready", () => {
@@ -286,10 +331,10 @@ function rollItemMacro(itemUuid) {
   });
 }
 
-function displayFloatingText(text) {
+function displayFloatingText(text,type) {
   ui.notifications.queue.push({
     message: text,
-    type: "fabulaultima-spellname",
+    type: type,
     timestamp: new Date().getTime(),
     permanent: false,
     console: false,

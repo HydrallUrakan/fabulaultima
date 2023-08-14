@@ -76,6 +76,11 @@
         },
         "fp": {
           "value": 3
+        },
+        "zp": {
+          "value": 0,
+          "min": 0,
+          "max": 6
         }
       }
     },
@@ -99,7 +104,12 @@
       "spell",
       "miscAbility",
       "behavior",
-      "consumable"
+      "consumable",
+      "heroicskill",
+      "zerotrigger",
+      "zeroeffect",
+      "quirk",
+      "activity"
     ],
     "templates": {
       "base": {
@@ -152,6 +162,12 @@
       },
       "showTitleCard": {
         "showTitleCard": { "value": false }
+      },
+      "shortDesc": {
+        "shortdesc": { "value": "" }
+      },
+      "zeroTrigger": {
+        "filled": { "value": 0 }
       }
     },
     "weapon": {
@@ -192,6 +208,19 @@
     "skill": {
       "templates": ["base", "hasLevel", "hasClass", "rollInfo", "showTitleCard"]
     },
+    "heroicskill": {
+      "templates": ["base", "hasClass", "showTitleCard", "shortDesc"]
+    },
+    "zerotrigger": {
+      "templates": ["base", "zeroTrigger", "showTitleCard"]
+    },
+    "zeroeffect": {
+      "templates": ["base"],
+      "hideTitleCard": { "value": false }
+    },
+    "quirk": {
+      "templates": ["base", "showTitleCard"]
+    },
     "spell": {
       "templates": ["base", "hasClass", "rollInfo"],
       "mpCost": { "value": "" },
@@ -206,7 +235,9 @@
       "miscType": { "value": false },
       "merge": "",
       "dismiss": "",
-      "domains": { "value": "" }
+      "domains": { "value": "" },
+      "target": { "value": "" },
+      "duration": { "value": "" }
     },
     "behavior": {
       "templates": ["base"],
@@ -215,6 +246,10 @@
     "consumable": {
       "templates": ["base"],
       "ipCost": { "value": 3 }
+    },
+    "activity": {
+      "templates": ["base"],
+      "target": { "value": "" }
     }
   }
 }

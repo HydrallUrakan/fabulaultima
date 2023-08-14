@@ -38,4 +38,7 @@
   .close {
     display: none;
   }
+  &.zeropower {
+    background-image: linear-gradient(to right, $fabula-warning, $fabula-optional);
+  }
 }

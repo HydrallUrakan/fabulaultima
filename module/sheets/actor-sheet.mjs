@@ -105,10 +105,15 @@ export class FabulaUltimaActorSheet extends ActorSheet {
     const accessories = [];
     const classes = [];
     const skills = [];
+    const heroicskills = [];
     const spells = [];
     const abilities = [];
     const behaviors = [];
     const consumables = [];
+    const zerotriggers = [];
+    const zeroeffects = [];
+    const quirks = [];
+    const activities = [];
     var value = 0;
 
     // Iterate through items, allocating to containers
@@ -131,6 +136,17 @@ export class FabulaUltimaActorSheet extends ActorSheet {
       i.miscType = i.system.miscType?.value;
       i.merge = i.system.merge?.value;
       i.dismiss = i.system.dismiss?.value;
+      switch (i.system.miscType?.value) {
+        case "chantkey":
+          i.miscType = "Chanter Key";
+          break;
+        case "chanttone":
+          i.miscType = "Chanter Tone";
+          break;
+        default:
+          i.miscType = i.system.miscType?.value;
+          break;
+      }
       i.cost = isNaN(parseInt(i.system.cost?.value)) ? 0 : parseInt(i.system.cost?.value) ;
       if (["armor", "shield", "accessory"].includes(i.type)) {
         i.def =
@@ -163,6 +179,8 @@ export class FabulaUltimaActorSheet extends ActorSheet {
         classes.push(i);
       } else if (i.type === "skill") {
         skills.push(i);
+      } else if (i.type === "heroicskill") {
+        heroicskills.push(i);
       } else if (i.type === "spell") {
         spells.push(i);
       } else if (i.type === "miscAbility") {
@@ -171,8 +189,39 @@ export class FabulaUltimaActorSheet extends ActorSheet {
         behaviors.push(i);
       } else if (i.type === "consumable") {
         consumables.push(i);
+      } else if (i.type === "zerotrigger") {
+        zerotriggers.push(i);
+      } else if (i.type === "zeroeffect") {
+        zeroeffects.push(i);
+      } else if (i.type === "quirk") {
+        quirks.push(i);
+      } else if (i.type === "activity") {
+        activities.push(i);
       }
       value += i.cost;
+    }
+
+    if (game.settings.get("fabulaultima", "enableZero")) {
+      context.zero = true;
+      if (game.settings.get("fabulaultima", "enableZeroClock")) {
+        context.zeroClock = true;
+      } else {
+        context.zeroClock = false;
+      }
+    } else {
+      context.zero = false;
+    }
+
+    if (game.settings.get("fabulaultima", "enableQuirks")) {
+      context.quirksSec = true;
+    } else {
+      context.quirksSec = false;
+    }
+
+    if (game.settings.get("fabulaultima", "enableActivities")) {
+      context.activitiesSet = true;
+    } else {
+      context.activitiesSet = false;
     }
 
     // Assign and return
@@ -182,10 +231,15 @@ export class FabulaUltimaActorSheet extends ActorSheet {
     context.accessories = accessories;
     context.classes = classes;
     context.skills = skills;
+    context.heroicskills = heroicskills;
     context.spells = spells;
     context.abilities = abilities;
     context.behaviors = behaviors;
     context.consumables = consumables;
+    context.zerotriggers = zerotriggers;
+    context.zeroeffects = zeroeffects;
+    context.quirks = quirks;
+    context.activities = activities;
     context.value = value;
 
   }

@@ -348,6 +348,40 @@ export class FabulaUltimaItem extends Item {
     return (item.system.dismiss && item.system.miscType.value === "arcanum") ? `<div class="card-section"><div class="section-label">Dismiss</div><div class="section-content">${item.system.dismiss}</div></div>` : "";
   }
 
+  getChantString() {
+    const item = this;
+    const actor = item.actor;
+    let chantString = "";
+    if (item.type === "miscAbility" && item.system.miscType.value === "chanttone") {
+      chantString = `
+      <div class="card-section">
+        <div class="section-label">
+          Volume
+        </div>
+        <div class="section-content">
+          <div><strong>Low Volume:</strong> 10 MP, Yourself or one creature you can see which can hear you.</div><div><strong>Medium Volume:</strong> 20 MP, every ally who can hear you</div><div><strong>High Volume:</strong> 30 MP, every enemy who can hear you.</div>
+        </div>
+      </div>
+      <div class="card-section">
+        <div class="section-label">
+          Key
+        </div>
+        <div class="section-content"><div class="chantkey"><strong>Key</strong> <p>Type, Status, Attribute, Recovery</p></div><hr />`;
+      const knownKeys = item.actor.items.filter(
+        (singleItem) =>
+          singleItem.type === "miscAbility" && singleItem.system.miscType.value === "chantkey"
+      );
+      const keyContents = [];
+      for (let i = 0; i < knownKeys.length; i++) {
+        chantString += `<div class="chantkey"><strong>${knownKeys[i].name}</strong> ${knownKeys[i].system.description}</div>`;
+      }
+      chantString += `</div>
+      </div>
+      `;
+    }
+    return chantString;
+  }
+
   getTargetFromNumber(num) {
     if (num <= 6) {
       return "You <b>or</b> one ally you can see that is present on the scene";
@@ -510,7 +544,8 @@ export class FabulaUltimaItem extends Item {
 
     // If there's no roll data, send a chat message.
     if (!this.system.formula) {
-      const desc = item.system.description ? `<div class="chat-desc"><div class="desc-title">INFO</div><div class="desc-content">${item.system.description}</div></div>` : "";
+      const descTone = item.system.miscType?.value === "chanttone" ? "TONE" : "INFO";
+      const desc = item.system.description ? `<div class="chat-desc"><div class="desc-title">${ descTone }</div><div class="desc-content">${item.system.description}</div></div>` : "";
       const attackData = await this.getRollString();
       const spellString = this.getSpellDataString();
       const levelString = this.getLevelString();
@@ -518,6 +553,7 @@ export class FabulaUltimaItem extends Item {
       const alchemyString = await this.getAlchemyString();
       const mergeString = this.getMergeString();
       const dismissString = this.getDismissString();
+      const chantString = this.getChantString();
       var startRoll = '<div class="item-roll ' + item.type + '">';
       const endRoll = '</div>';
       var qualityString = "";
@@ -534,10 +570,47 @@ export class FabulaUltimaItem extends Item {
         qualityString = costString;
       }
       else if (this.type === "miscAbility") {
-        qualityString = `<div class="capitalize"><strong>Misc. Ability:</strong> ${item.system.miscType.value}</div>`;
-        if (item.system.miscType.value === "arcanum") {
-          qualityString = `<div><strong>Domains:</strong> ${this.system.domain.value}</div>`;
+        switch(item.system.miscType.value) {
+          case "arcanum":
+            qualityString = `<div><strong>Domains:</strong> ${this.system.domain.value}</div>`;
+            break;
+          case "alchemy":
+            qualityString = `<div><strong>Alchemical Invention</strong></div>`
+            break;
+          case "infusion":
+            qualityString = `<div><strong>Infusion Invention</strong></div>`
+            break;
+          case "magitech":
+            qualityString = `<div><strong>Magitech Invention</strong></div>`
+            break;
+          case "chantkey":
+            qualityString = `<div><strong>Chant Key:</strong> Choose one key, one tone, and one volume.</div>`
+            break;
+          case "chanttone":
+            qualityString = '<div><strong>Chant Tone:</strong> Choose one key, one tone, and one volume.</div>';
+            break;
+          case "dance":
+            qualityString = `<div><strong>Dance Duration:</strong> ${item.system.duration.value}</div>`
+            break;
+          case "symbol":
+            qualityString = `<div><strong>Symbol</strong></div>`
+            break;
+          default:
+            qualityString = `<div class="capitalize"><strong>Misc. Ability:</strong> ${item.system.miscType.value}</div>`;
+            break;
         }
+      }
+      else if (this.type === "quirk") {
+        qualityString = `<div>Quirk</div>`
+      }
+      else if (this.type === "activity") {
+        qualityString = `<div><strong>Target:</strong> ${ this.system.target.value }</div>`
+      }
+      else if (this.type === "zerotrigger") {
+        qualityString = `<div><strong>Filled Segments:</strong> ${ this.system.filled.value }</div>`
+      }
+      else if (this.type === "zeroeffect") {
+        qualityString = `<div>Unleash Zero Power!</div>`
       }
       else {
         qualityString = "No Quality";
@@ -564,6 +637,7 @@ export class FabulaUltimaItem extends Item {
 
       let content = [
         startRoll,
+        chantString,
         desc,
         mergeString,
         dismissString,
@@ -577,7 +651,7 @@ export class FabulaUltimaItem extends Item {
       content = content ? `${content}` : "";
 
       var shouldShowNotification =
-        ["spell"].includes(item.type) ||
+        ["spell", "zeroeffect"].includes(item.type) ||
         item.system.showTitleCard?.value;
 
       if (item.system.hideTitleCard?.value === true) {
@@ -585,8 +659,12 @@ export class FabulaUltimaItem extends Item {
       }
 
       let floatingText = item.name;
+      let floatingType = "fabulaultima-spellname";
+      if (item.type === "zeroeffect") {
+        floatingType = "fabulaultima-spellname zeropower";
+      }
       if (shouldShowNotification) {
-        socketlib.system.executeForEveryone("floatingText", floatingText);
+        socketlib.system.executeForEveryone("floatingText", floatingText, floatingType);
       }
 
       ChatMessage.create({

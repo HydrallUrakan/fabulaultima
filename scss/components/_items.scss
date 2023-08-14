@@ -134,6 +134,14 @@
   padding: 0 8px;
 }
 
+.item-shortdesc {
+  flex: 0 0 300px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .item-def,
 .item-mdef,
 .item-init,
@@ -148,7 +156,8 @@
 
 .item-equipped,
 .item-mpcost,
-.item-ip-cost {
+.item-ip-cost,
+.item-filled {
   flex: 0 0 83px;
   padding: 0 8px;
   display: flex;
@@ -165,12 +174,14 @@
 .item-target,
 .item-duration,
 .item-level,
-.item-costs {
-  flex: 0 0 150px;
+.item-costs,
+.item-misctype {
+  flex: 0 0 125px;
   padding: 0 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
 }
 
 .item-costs span {

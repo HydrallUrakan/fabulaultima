@@ -342,3 +342,18 @@
         }
     }
 }
+
+.chantkey {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3px;
+    strong {
+        width: 60px;
+    }
+    p {
+        margin: 0;
+        flex: 1;
+        font-size: 80%;
+    }
+  }

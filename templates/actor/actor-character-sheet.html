@@ -49,6 +49,23 @@
 
                         </div>
                     </div>
+                    <!-- ZP -->
+                    {{#if zeroClock }}
+                    <div class="resource flex-group-center">
+                        <div class="resource-content flexrow flex-center flex-between">
+                            <label for="system.resources.zp.value" class="resource-label">
+                                <p class="zp"><i class="fa-solid fa-power-off"></i> ZP</p>
+                            </label>
+                            <div class="resource-value">
+                                <input type="text" name="system.resources.zp.value"
+                                    value="{{system.resources.zp.value}}" data-dtype="Number" />
+                                <span>/</span>
+                                <span class="max">{{system.resources.zp.max}}</span>
+                            </div>
+
+                        </div>
+                    </div>
+                    {{/if}}
                 </div>
             </div>
             <div class="charname-attributes">
@@ -224,12 +241,12 @@
         {{!-- Default tab is specified in actor-sheet.mjs --}}
         <a class="item rollable TabStyle" data-tab="features">
             <span class="inner">
-                <span class="inner-text">Features</span>
+                <span class="inner-text">Details</span>
             </span>
         </a>
         <a class="item rollable TabStyle" data-tab="skills">
             <span class="inner">
-                <span class="inner-text">Classes</span>
+                <span class="inner-text">Features</span>
             </span>
         </a>
         <a class="item rollable TabStyle" data-tab="items">
@@ -239,7 +256,7 @@
         </a>
         <a class="item rollable TabStyle" data-tab="spells">
             <span class="inner">
-                <span class="inner-text">Spells</span>
+                <span class="inner-text">Abilities</span>
             </span>
         </a>
         <a class="item rollable TabStyle" data-tab="effects">

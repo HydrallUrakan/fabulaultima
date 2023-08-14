@@ -80,28 +80,56 @@ when possible. --}}
         <option value="alchemy">Alchemy</option>
         <option value="infusion">Infusion</option>
         <option value="magitech">Magitech</option>
+        <option value="chantkey">Chanter Key</option>
+        <option value="chanttone">Chanter Tone</option>
+        <option value="dance">Dance</option>
+        <option value="symbol">Symbol</option>
         {{/select}}
       </select></div>
 
       <div class="resource">
-        <label class="resource-label">Domains</label>
+        <label class="resource-label">Target</label>
         <input
           type="text"
-          name="system.domain.value"
-          value="{{system.domain.value}}"
+          name="system.target.value"
+          value="{{system.target.value}}"
         />
       </div>
       <div class="resource">
-      <label class="resource-label">Merge</label>
-      {{editor system.merge class="misceditor" target="system.merge" rollData=rollData
-      button=true owner=owner editable=editable}}
+        <label class="resource-label">Duration</label>
+        <input
+          type="text"
+          name="system.duration.value"
+          value="{{system.duration.value}}"
+        />
       </div>
-      <div class="resource">
-        <label class="resource-label">Dismiss</label>
-        {{editor system.dismiss class="misceditor" target="system.dismiss" rollData=rollData
-        button=true owner=owner editable=editable }}
+
+      <div class="arcanum">
+        <div class="accordion-label">
+          Arcanum
+        </div>
+        <div class="accordion-content">
+          <div class="resource">
+            <label class="resource-label">Domains</label>
+            <input
+              type="text"
+              name="system.domain.value"
+              value="{{system.domain.value}}"
+            />
+          </div>
+          <div class="resource">
+          <label class="resource-label">Merge</label>
+          {{editor system.merge class="misceditor" target="system.merge" rollData=rollData
+          button=true owner=owner editable=editable}}
+          </div>
+          <div class="resource">
+            <label class="resource-label">Dismiss</label>
+            {{editor system.dismiss class="misceditor" target="system.dismiss" rollData=rollData
+            button=true owner=owner editable=editable }}
+          </div>
+        </div>
       </div>
-      
+
       <label class="checkbox">
         <span>Has Roll?</span
         ><input
