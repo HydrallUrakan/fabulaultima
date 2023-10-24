@@ -156,6 +156,13 @@ Hooks.once("init", async function () {
       icon: "systems/fabulaultima/images/symbol.webp",
       stats: ["ins"],
       mod:0,
+    },
+    {
+      id: "invocation",
+      label: "Invocation",
+      icon: "systems/fabulaultima/images/invocation.webp",
+      stats: ["wlp"],
+      mod:0,
     }
   ];
 

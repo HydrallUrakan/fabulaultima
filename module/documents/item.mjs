@@ -575,25 +575,28 @@ export class FabulaUltimaItem extends Item {
             qualityString = `<div><strong>Domains:</strong> ${this.system.domain.value}</div>`;
             break;
           case "alchemy":
-            qualityString = `<div><strong>Alchemical Invention</strong></div>`
+            qualityString = `<div><strong>Alchemical Invention</strong></div>`;
             break;
           case "infusion":
-            qualityString = `<div><strong>Infusion Invention</strong></div>`
+            qualityString = `<div><strong>Infusion Invention</strong></div>`;
             break;
           case "magitech":
-            qualityString = `<div><strong>Magitech Invention</strong></div>`
+            qualityString = `<div><strong>Magitech Invention</strong></div>`;
             break;
           case "chantkey":
-            qualityString = `<div><strong>Chant Key:</strong> Choose one key, one tone, and one volume.</div>`
+            qualityString = `<div><strong>Chant Key:</strong> Choose one key, one tone, and one volume.</div>`;
             break;
           case "chanttone":
             qualityString = '<div><strong>Chant Tone:</strong> Choose one key, one tone, and one volume.</div>';
             break;
           case "dance":
-            qualityString = `<div><strong>Dance Duration:</strong> ${item.system.duration.value}</div>`
+            qualityString = `<div><strong>Dance Duration:</strong> ${item.system.duration.value}</div>`;
             break;
           case "symbol":
-            qualityString = `<div><strong>Symbol</strong></div>`
+            qualityString = `<div><strong>Symbol</strong></div>`;
+            break;
+          case "invocation":
+            qualityString = `<div><strong>Invocation</strong></div>`;
             break;
           default:
             qualityString = `<div class="capitalize"><strong>Misc. Ability:</strong> ${item.system.miscType.value}</div>`;
