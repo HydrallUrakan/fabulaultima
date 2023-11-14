@@ -421,3 +421,15 @@
         min-height: 5em;
       }
     }
+
+
+    .item .arcanum {
+      border: 1px solid black;
+      padding: 5px;
+      margin-top: 3px;
+
+      .accordion-label {
+        font-weight: bold;
+        margin-bottom: 3px;
+      }
+    }

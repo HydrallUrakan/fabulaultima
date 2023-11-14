@@ -347,6 +347,11 @@ export class FabulaUltimaItem extends Item {
     const item = this;
     return (item.system.dismiss && item.system.miscType.value === "arcanum") ? `<div class="card-section"><div class="section-label">Dismiss</div><div class="section-content">${item.system.dismiss}</div></div>` : "";
   }
+  
+  getPulseString() {
+    const item = this;
+    return (item.system.pulse && item.system.miscType.value === "arcanum") ? `<div class="card-section"><div class="section-label">Pulse</div><div class="section-content">${item.system.pulse}</div></div>` : "";
+  }
 
   getChantString() {
     const item = this;
@@ -553,6 +558,7 @@ export class FabulaUltimaItem extends Item {
       const alchemyString = await this.getAlchemyString();
       const mergeString = this.getMergeString();
       const dismissString = this.getDismissString();
+      const pulseString = this.getPulseString();
       const chantString = this.getChantString();
       var startRoll = '<div class="item-roll ' + item.type + '">';
       const endRoll = '</div>';
@@ -644,6 +650,7 @@ export class FabulaUltimaItem extends Item {
         desc,
         mergeString,
         dismissString,
+        pulseString,
         attackString,
         alchemyString,
         endRoll,

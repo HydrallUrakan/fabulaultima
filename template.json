@@ -235,6 +235,7 @@
       "miscType": { "value": false },
       "merge": "",
       "dismiss": "",
+      "pulse": "",
       "domains": { "value": "" },
       "target": { "value": "" },
       "duration": { "value": "" }

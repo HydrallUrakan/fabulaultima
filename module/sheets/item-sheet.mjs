@@ -55,9 +55,19 @@ export class FabulaUltimaItemSheet extends ItemSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
+    var accordions = document.querySelectorAll('.accordion');
+    accordions.forEach(accordion => {
+      var accordionLabel = accordion.getElementsByClassName('accordion-label')[0];
+      if (accordionLabel) {
+        accordionLabel.addEventListener('click', e => {
+          accordion.classList.toggle('active');
+        });
+      }
+    });
+
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
-
+    
     // Roll handlers, click handlers, etc. would go here.
   }
 }

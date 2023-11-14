@@ -136,6 +136,7 @@ export class FabulaUltimaActorSheet extends ActorSheet {
       i.miscType = i.system.miscType?.value;
       i.merge = i.system.merge?.value;
       i.dismiss = i.system.dismiss?.value;
+      i.pulse = i.system.pulse?.value;
       switch (i.system.miscType?.value) {
         case "chantkey":
           i.miscType = "Chanter Key";

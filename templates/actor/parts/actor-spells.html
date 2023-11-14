@@ -94,6 +94,12 @@
         <div class="desc-card-content">{{{ item.system.dismiss }}}</div>
       </div>
       {{/if}}
+      {{#if item.system.pulse}}
+        <div class="desc-card">
+            <strong class="desc-card-label">Pulse</strong> 
+            <div class="desc-card-content">{{{ item.system.pulse }}}</div>
+        </div>
+      {{/if}}
       {{{ item.system.description }}}
     </div>
   </li>
